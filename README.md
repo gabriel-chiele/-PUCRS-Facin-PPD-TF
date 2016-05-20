@@ -1,3 +1,3 @@
 # [PUCRS/Facin] PPD-TF
 
-WhatsApp-like project for Graduation degree.
+WhatsApp-like project for graduation degree.
