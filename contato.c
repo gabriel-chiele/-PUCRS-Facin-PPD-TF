@@ -25,7 +25,7 @@ int __initContato__(struct contato* new, char* name, char* ip){
 void main(void){
 
 	struct contato teste;
-
+rew
 	__initContato__(&teste,"carlos","10.10.10.10");
 
 	printf("%s\n%s\n%s\n",teste._name,teste._ip,teste.file_name);
