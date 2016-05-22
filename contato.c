@@ -4,30 +4,26 @@
 
 #include "contato.h"
 
-int _createContato(struct contato* new, char* name, char* ip){
-	char file_name[25];
+struct contato _createContato(char* name, char* ip){
+	struct contato new;
+	strcpy(new._name, name);
+	strcpy(new._ip, ip);
+	sprintf(new.file_name, "Messages/%s.msg", new._name);
 
-	new-> _name = malloc(10);
-	new-> _ip   = malloc(16);
-	new-> file_name = malloc(25);
-
-	strcpy(new->_name, name);
-	strcpy(new->_ip, ip);
-	sprintf(new->file_name, "Messages/%s.msg", new->_name);
-
-	return 1;
+	return new;
 }
 
 void _listMsgs(struct contato* contact_list, char* name){
-	int i;
-	for (i = 0; i < N_ELEMENTS(contact_list); ++i)
-	{
+	int i,tam;
+	tam = N_ELEMENTS(contact_list);
+	for (i = 0; i < tam; ++i){
 		if(!strcmp(contact_list[i]._name, name)){
 			FILE* file;
 			if(file = fopen (contact_list[i].file_name, "r")){
-				char* line;
+				char line[256];
+				//criar uma msg no lugar da line e criar uma função de print msg
 				while(!feof(file)){
-					line = readLine(myFile);
+					fgets (line, sizeof(line), file);
 					printf("%s\n", line);
 				}
 			}
@@ -35,10 +31,10 @@ void _listMsgs(struct contato* contact_list, char* name){
 	}
 }
 
-void _main(void){
+void main(void){
 
 	struct contato teste;
-	_createContato(&teste,"carlos","10.10.10.10");
+	teste = _createContato("carlos","10.10.10.10");
 
 	printf("%s\n%s\n%s\n",teste._name,teste._ip,teste.file_name);
 }

@@ -5,13 +5,14 @@
 struct mensagem _createMessage(char* phrase){
 	struct mensagem msg;
 	sprintf(msg.msg, "%s", phrase);
+	msg.estado = CRIADA;
 
 	return msg;
 }
 
-void _main (void){
+void main (void){
 	struct mensagem msg;
 
 	msg = _createMessage("teste");
-	printf ("%s\n",msg.msg);
+	printf ("%s\n%d\n", msg.msg, msg.estado);
 }

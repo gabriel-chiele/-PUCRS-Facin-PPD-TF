@@ -4,12 +4,12 @@
 #define N_ELEMENTS(c)  (sizeof(c) / sizeof((c)[0]))
 
 typedef struct contato{
-	char* _name;
-	char* _ip;
-	char* file_name;
+	char _name[8];
+	char _ip[16];
+	char file_name[25];
 }contato;
 
-int _createContato(struct contato* new, char* name, char* ip);
+struct contato _createContato(char* name, char* ip);
 
 void _listMsgs(struct contato* contact_list, char* name);
 
