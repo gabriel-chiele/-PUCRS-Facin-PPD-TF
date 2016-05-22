@@ -1,19 +1,17 @@
 #include <stdio.h>
 
-#define TAM_MAX_MSG 32
+#include "mensagem.h"
 
-struct mensagem{
-	char msg[TAM_MAX_MSG];
-}mensagem;
+struct mensagem _createMessage(char* phrase){
+	struct mensagem msg;
+	sprintf(msg.msg, "%s", phrase);
 
-struct mensagem* _createMessage(char* phrase){
-	struct mensagem *msg;
-	sprintf(msg->msg, "%s", phrase);
+	return msg;
 }
 
-void main (void){
-	struct mensagem* msg;
+void _main (void){
+	struct mensagem msg;
 
 	msg = _createMessage("teste");
-	printf ("%s\n",msg->msg);
+	printf ("%s\n",msg.msg);
 }

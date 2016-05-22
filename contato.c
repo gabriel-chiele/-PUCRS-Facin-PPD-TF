@@ -1,14 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct contato{
-	char* _name;
-	char* _ip;
-	char* file_name;
-	FILE* msgs;
-}contato;
+#include "contato.h"
 
-int __initContato__(struct contato* new, char* name, char* ip){
+int _createContato(struct contato* new, char* name, char* ip){
 	char file_name[25];
 
 	new-> _name = malloc(10);
@@ -22,11 +17,10 @@ int __initContato__(struct contato* new, char* name, char* ip){
 	return 1;
 }
 
-void main(void){
+void _main(void){
 
 	struct contato teste;
-rew
-	__initContato__(&teste,"carlos","10.10.10.10");
+	_createContato(&teste,"carlos","10.10.10.10");
 
 	printf("%s\n%s\n%s\n",teste._name,teste._ip,teste.file_name);
 
