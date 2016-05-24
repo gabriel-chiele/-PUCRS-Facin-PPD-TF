@@ -13,6 +13,6 @@ typedef struct mensagem{
 	int estado;
 }mensagem;
 
-struct mensagem _createMessage(char* phrase);
+void _createMessage(struct mensagem* new ,char* phrase);
 
 #endif

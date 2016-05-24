@@ -4,13 +4,11 @@
 
 #include "contato.h"
 
-struct contato _createContato(char* name, char* ip){
+void _createContato(struct contato* new, char* name, char* ip){
 	struct contato new;
-	strcpy(new._name, name);
-	strcpy(new._ip, ip);
-	sprintf(new.file_name, "Messages/%s.msg", new._name);
-
-	return new;
+	strcpy(new->_name, name);
+	strcpy(new->_ip, ip);
+	sprintf(new->file_name, "Messages/%s.msg", new->_name);
 }
 
 void _listMsgs(struct contato* contact_list, char* name){
@@ -31,10 +29,10 @@ void _listMsgs(struct contato* contact_list, char* name){
 	}
 }
 
-void main(void){
+void _main(void){
 
 	struct contato teste;
-	teste = _createContato("carlos","10.10.10.10");
+	_createContato(&teste,"carlos","10.10.10.10");
 
 	printf("%s\n%s\n%s\n",teste._name,teste._ip,teste.file_name);
 }

@@ -2,17 +2,14 @@
 
 #include "mensagem.h"
 
-struct mensagem _createMessage(char* phrase){
-	struct mensagem msg;
-	sprintf(msg.msg, "%s", phrase);
-	msg.estado = CRIADA;
-
-	return msg;
+void _createMessage(struct mensagem new, char* phrase){
+	sprintf(new->msg, "%s", phrase);
+	new->estado = CRIADA;
 }
 
-void main (void){
+void _main (void){
 	struct mensagem msg;
 
-	msg = _createMessage("teste");
+	_createMessage(&msg,"teste");
 	printf ("%s\n%d\n", msg.msg, msg.estado);
 }
