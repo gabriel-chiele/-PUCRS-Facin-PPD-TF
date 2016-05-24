@@ -1,5 +1,5 @@
-#ifndef MENSAGEM_HEADER
-#define MENSAGEM_HEADER
+#ifndef GRUPO_HEADER
+#define GRUPO_HEADER
 
 #include "contato.h"
 
