@@ -1,6 +1,8 @@
 #ifndef MENSAGEM_HEADER
 #define MENSAGEM_HEADER
 
+#include "contato.h"
+
 #define TAM_MAX_MSG 32
 
 #define CRIADA 0
@@ -9,6 +11,7 @@
 #define LIDA 3
 
 typedef struct mensagem{
+	/*struct contato de,para;*/
 	char msg[TAM_MAX_MSG];
 	int estado;
 }mensagem;
