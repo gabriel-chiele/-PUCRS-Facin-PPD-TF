@@ -14,3 +14,4 @@ void _createContato(struct contato* new, char* name, char* ip);
 void _listMsgs(struct contato* contact_list, char* name);
 
 #endif
+
