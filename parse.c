@@ -1,22 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void  readSTDIN(void){
 	char string[1024];
-	int i = 0, separator = 0;
+	char *aux; 
+	int i, j, count = 0;
 	while(1){
 		gets(string);
 		for(i=0;i<strlen(string);i++){
-			if(string[i] == NULL)
-				break;
-			else if(string[i] == '\ ')
-			{
-				printf("%s\n", string);
-				separator = i;
+			if(string[i] == ' ' || string[i] == NULL){
+				aux = (char*)calloc((i - count),sizeof(char));
+				for(j=count;j<i;j++) 
+					aux[j] = string[i];
+				printf("%d - %s\n", count ,aux);
+				count = i;
+				printf("%d\n",count);
 			}
-			else continue;
 		}
 	}
-	// criar parser para identificar comandos
 }
 
 void main(void){
