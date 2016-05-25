@@ -20,7 +20,3 @@ void  readSTDIN(void){
 		}
 	}
 }
-
-void main(void){
-	readSTDIN();
-}

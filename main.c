@@ -9,7 +9,6 @@ void main(void){
 	struct grupo group;
 	struct contato contatos[8];
 	
-
 	_createContato(&contatos[0],"carlos","10.10.10.10");
 
 	printf("Contato Criado:\n%s\n%s\n\n",contatos[0]._name, contatos[0]._ip);
