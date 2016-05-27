@@ -1,49 +1,31 @@
 #include <stdio.h>
-#include <dirent.h> 
 
 #include "user.h"
+#include "utils.h"
 
 struct user usuario;
 FILE* user_file;
-char login[8];
-char aux[10];
+char login[15];
+char user_fileName[15];
+int errn = 0;
 
-void close();
-int searchUser(char* username);
-
-void main(void){
+int main(void){
 
 	printf("\t\t\tWhatsPPD\nUsuario:");
-	gets(login);
 
+	gets(login);
 	// procurar arquivo para 'login' dado, se ñ existir criar usuario
-	sprintf(aux,"%s.u",login);
-	if(searchUser(aux)){
-		printf("Achou mizeravi !");
+	sprintf(user_fileName,"%s.u",login);
+	if(searchUser(user_fileName)){
+		if(!loadUser(&usuario, user_fileName)){
+			errn = 1;
+			atexit(exitWithERROR);	
+		}
 	}
 	else{
-		printf("Nao deu nao.");
+		printf("Errro !\n");
 	}
 
 	//atexit(close);
-}
-
-void close(){
-	// salvar e fechar arquivo do usuario aqui
-	system("clear");
-}
-
-int searchUser(char* username){
-	DIR *d;
-	struct dirent *dir;
-	d = opendir("Users");
-	if (d){
-		while ((dir = readdir(d)) != NULL){
-			if(!strcmp(dir->d_name,username))
-				return 1;
-		}
-	closedir(d);
-	}
-	return 0;
 }
 

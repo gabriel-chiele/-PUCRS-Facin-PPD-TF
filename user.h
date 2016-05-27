@@ -23,7 +23,7 @@ void AddGroup(struct user* u, char* name, struct contato* contacts, int size);
 
 void AddContact(struct user* u, char* name, char* ip);
 
-void loadUser();
+int loadUser();
 
 void saveUser();
 

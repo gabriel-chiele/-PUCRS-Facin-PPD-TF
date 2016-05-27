@@ -48,3 +48,13 @@ void AddContact(struct user* u, char* name, char* ip){
 	else printf("You don't have capacity to add a new contact !");
 }
 
+int loadUser(struct user *usuario, char* user_fileName){
+	FILE* userFile = fopen(user_fileName, "r");
+	if(userFile != NULL){
+		//	load user info
+		return 1;
+	}
+	else return 0;
+}
+
+void saveUser();
