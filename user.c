@@ -51,10 +51,19 @@ void AddContact(struct user* u, char* name, char* ip){
 int loadUser(struct user *usuario, char* user_fileName){
 	FILE* userFile = fopen(user_fileName, "r");
 	if(userFile != NULL){
-		//	load user info
+		//TODO: load user info
 		return 1;
 	}
 	else return 0;
 }
 
-void saveUser();
+void saveUser(struct user *usuario, char* user_fileName){
+	// TODO: add a case where the file already exist then delete the existing one and re-save the file,\
+	   just to avoid the need to append.
+	FILE* userfile = fopen(user_fileName, "w");
+	if(userfile != NULL){
+		//TODO: save user info
+		return 1; 
+	}
+	else return 0;
+}

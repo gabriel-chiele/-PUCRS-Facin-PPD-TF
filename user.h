@@ -14,18 +14,15 @@ typedef struct user{
 }user;
 
 void _createUser(struct user* new, char* name, char* ip);
-
 int ContactwithNameExist(struct user* u, char* name);
-
 int GroupwithNameExist(struct user* u, char* name);
-
 void AddGroup(struct user* u, char* name, struct contato* contacts, int size);
-
 void AddContact(struct user* u, char* name, char* ip);
 
-int loadUser();
-
+int loadUser(); // keeping prototype to avoid compilation errors in this fase
+int loadUser(struct user *usuario, char* user_fileName);
 void saveUser();
+void saveUser(struct user *usuario, char* user_fileName);
 
 #endif
 

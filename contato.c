@@ -10,10 +10,9 @@ void _createContato(struct contato* new, char* name, char* ip){
 	sprintf(new->file_name, "Messages/%s.msg", new->_name);
 }
 
-void _listMsgs(struct contato* contact_list, char* name){
-	int i,tam;
-	tam = N_ELEMENTS(contact_list);
-	for (i = 0; i < tam; ++i){
+void _listMsgs(struct contato* contact_list, char* name, int nContatos){
+	int i;
+	for (i = 0; i < nContatos; ++i){
 		if(!strcmp(contact_list[i]._name, name)){
 			FILE* file;
 			if(file = fopen (contact_list[i].file_name, "r")){
@@ -23,6 +22,7 @@ void _listMsgs(struct contato* contact_list, char* name){
 					fgets (line, sizeof(line), file);
 					printf("%s\n", line);
 				}
+				break;
 			}
 		}
 	}
