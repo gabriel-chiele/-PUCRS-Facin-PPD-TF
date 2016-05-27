@@ -11,11 +11,11 @@
 #define LIDA 3
 
 typedef struct mensagem{
-	/*struct contato de,para;*/
 	char msg[TAM_MAX_MSG];
 	int estado;
+	struct contato to, from;
 }mensagem;
 
-void _createMessage(struct mensagem* new ,char* phrase);
+void _createMessage(struct contato* from, struct contato* to, struct mensagem* new, char* phrase);
 
 #endif
