@@ -1,34 +1,49 @@
 #include <stdio.h>
+#include <dirent.h> 
 
 #include "user.h"
 
-void closing();
-
 struct user usuario;
+FILE* user_file;
+char login[8];
+char aux[10];
+
+void close();
+int searchUser(char* username);
 
 void main(void){
-	char username[8];
 
 	printf("\t\t\tWhatsPPD\nUsuario:");
-	gets(username);
+	gets(login);
 
-	printf("\n%s\n", username);
+	// procurar arquivo para 'login' dado, se ñ existir criar usuario
+	sprintf(aux,"%s.u",login);
+	if(searchUser(aux)){
+		printf("Achou mizeravi !");
+	}
+	else{
+		printf("Nao deu nao.");
+	}
 
-	/*struct grupo group;
-	struct contato contatos[8];
-	
-	_createContato(&contatos[0],"carlos","10.10.10.10");
-
-	printf("Contato Criado:\n%s\n%s\n\n",contatos[0]._name, contatos[0]._ip);
-
-	_createGrupo(&group,"teste",&(contatos[0]),1); 
-
-	printf("Grupo: \n%s\n%s\n",group._name, group.contatos[0]._name);*/
-
-	atexit(closing);
-
+	//atexit(close);
 }
 
-void closing(){
+void close(){
+	// salvar e fechar arquivo do usuario aqui
 	system("clear");
 }
+
+int searchUser(char* username){
+	DIR *d;
+	struct dirent *dir;
+	d = opendir("Users");
+	if (d){
+		while ((dir = readdir(d)) != NULL){
+			if(!strcmp(dir->d_name,username))
+				return 1;
+		}
+	closedir(d);
+	}
+	return 0;
+}
+
