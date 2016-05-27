@@ -30,7 +30,7 @@ int GroupwithNameExist(struct user* u, char* name){
 	return 0;
 }
 
-//TODO: testar se contato está na lista de contatos, ae ñ está tem q add
+//TODO: testar se contato está na lista de contatos, se ñ está tem q add, atualizar lista de grupos no arquivo do usuario
 void AddGroup(struct user* u, char* name, struct contato* contacts, int size){
 	if(u->nGrupos < 8){ 
 		_createGrupo(&u->grupos[u->nGrupos], name, contacts, size);
@@ -39,7 +39,7 @@ void AddGroup(struct user* u, char* name, struct contato* contacts, int size){
 	else printf("You don't have capacity to add a new group !");
 }
 
-//TODO: testar se contato está na lista de contatos, ae ñ pode add
+//TODO: testar se contato está na lista de contatos, se ñ pode add, atualizar lista de contatos no arquivo do usuario
 void AddContact(struct user* u, char* name, char* ip){
 	if(u->nContatos < 8){
 		_createContato(&u->contatos[u->nContatos], name, ip);
