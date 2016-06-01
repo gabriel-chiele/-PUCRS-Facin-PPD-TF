@@ -7,10 +7,18 @@
 
 void  readSTDIN(void){
 	char string[1024];
-	char *aux; 
+	char *aux, comando; 
 	int i, j, count = 0;
 	while(1){
 		gets(string);
+		/* TODO:
+		sscanf(steing,"%s",comando);
+		switch(comando){
+			// if the 'comando' is a commad with static number of arguments then utilize sscanf
+			// else if the command has variable size, then count the number of spaces to know his size
+			// then treat properly
+		}
+		*/
 		for(i=0;i<strlen(string);i++){
 			if(string[i] == ' ' || string[i] == NULL){
 				aux = (char*)calloc((i - count),sizeof(char));
