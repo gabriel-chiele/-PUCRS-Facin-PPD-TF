@@ -19,6 +19,16 @@ int ContactwithNameExist(struct user* u, char* name){
 	return 0;
 }
 
+int ContactwithNameIP(struct user* u, char* ip){
+	int i;
+	for(i=0;i<(u->nContatos);i++){
+		if(!strcmp(u->contatos->_ip,ip))
+			return 1;
+		else continue;
+	}
+	return 0;
+}
+
 int GroupwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nGrupos);i++){

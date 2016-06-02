@@ -14,6 +14,7 @@ typedef struct user{
 
 void _createUser(struct user* new, char* name);
 int ContactwithNameExist(struct user* u, char* name);
+int ContactwithNameIP(struct user* u, char* ip);
 int GroupwithNameExist(struct user* u, char* name);
 void AddGroup(struct user* u, char* name, struct contato* contacts, int size);
 void AddContact(struct user* u, char* name, char* ip);
