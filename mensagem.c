@@ -2,9 +2,25 @@
 
 #include "mensagem.h"
 
-void _createMessage(struct contato* from, struct contato* to, struct mensagem* new, char* phrase){
-	_createContato(&new->from, from->_name, from->_ip);
-	_createContato(&new->to, to->_name, to->_ip);
+void _createTxtMessage(struct mensagem* new, char* from, char* phrase){
+	new->tipo = MSG_TXT;
+	sprintf(new->from, "%s", from);
 	sprintf(new->msg, "%s", phrase);
 	new->estado = CRIADA;
 }
+
+void _createAddContatoMessage(struct mensagem* new, char* from){
+	new->tipo = ADD_CONTATO;
+	sprintf(new->from, "%s", from);
+	new->estado = CRIADA;
+}
+
+/* quando um grupo é criado tem q se mandar a msg de criação de grupo para todos, junto com os nome e ip 
+deo participantes do grupo.
+
+void _createAddGrupoMessage(struct mensagem* new, char* from){
+	new->tipo = ADD_CONTATO;
+	sprintf(new->from, "%s", from);
+	new->estado = CRIADA;
+}
+*/

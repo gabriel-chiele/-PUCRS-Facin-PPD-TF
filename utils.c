@@ -12,7 +12,7 @@ void  readSTDIN(void){
 	while(1){
 		gets(string);
 		/* TODO:
-		sscanf(steing,"%s",comando);
+		sscanf(string,"%s",comando);
 		switch(comando){
 			// if the 'comando' is a commad with static number of arguments then utilize sscanf
 			// else if the command has variable size, then count the number of spaces to know his size

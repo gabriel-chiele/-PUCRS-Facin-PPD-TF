@@ -5,17 +5,26 @@
 
 #define TAM_MAX_MSG 32
 
+/** STATUS DA MSG **/
 #define CRIADA 0
 #define ENVIADA 1
-#define RECEBIDA 2
-#define LIDA 3
+#define LIDA 2
+
+/** TIPOS DE MSG **/
+#define MSG_TXT 0
+#define ADD_CONTATO 1
+#define ADD_GRUPO 2
 
 typedef struct mensagem{
+	int tipo;
 	char msg[TAM_MAX_MSG];
+	char from[8];
 	int estado;
-	struct contato to, from;
 }mensagem;
 
-void _createMessage(struct contato* from, struct contato* to, struct mensagem* new, char* phrase);
-
+void _createTxtMessage(struct mensagem* new, char* from, char* phrase);
+void _createAddContatoMessage(struct mensagem* new, char* from);
+/*
+void _createAddGrupoMessage(struct contato* from, struct contato* to, struct mensagem* new, char* phrase);
+*/
 #endif

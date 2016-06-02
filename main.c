@@ -27,7 +27,6 @@ int main(void){
 		}
 		#endif
 	}
-	printf("perdeu");
 	else{
 		_createUser(&usuario,login);
 		//AddContact(&usuario, "gabriel", "127.0.0.1");
