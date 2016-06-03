@@ -2,6 +2,7 @@
 
 #include "user.h"
 #include "utils.h"
+#include "server.h"
 
 #define DEBUG
 
@@ -38,5 +39,8 @@ int main(void){
 			atexit(exitWithERROR);
 		}
 	}
+
+	initThread();
+	while(1);
 	//atexit(close);
 }
