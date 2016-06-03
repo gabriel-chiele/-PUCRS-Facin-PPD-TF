@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "grupo.h"
 
 void _createGrupo(struct grupo* new, char* name, struct contato* contacts, int size){

@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include "user.h"
 
 void _createUser(struct user* new, char* name){

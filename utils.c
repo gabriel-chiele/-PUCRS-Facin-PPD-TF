@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h> 
-
 #include "utils.h"
 
 void  readSTDIN(void){
@@ -34,6 +29,8 @@ void  readSTDIN(void){
 
 void close(void){
 	//TODO: Close client and server thread here, along with any possibly open file.
+	extern pthread_t id;
+	pthread_join(id, NULL);
 	system("clear");
 }
 
@@ -52,7 +49,7 @@ int searchUser(char* username){
 }
 
 void exitWithERROR(void){
-	extern errn;
+	extern int errn;
 	printf("\t\tProgram terminated\n\t\t     ERROR n:%d\n",errn);
 	switch(errn){
 		case 1:

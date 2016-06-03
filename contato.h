@@ -1,6 +1,10 @@
 #ifndef CONTATO_HEADER
 #define CONTATO_HEADER
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct contato{
 	char _name[8];
 	char _ip[16];

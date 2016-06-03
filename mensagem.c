@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "mensagem.h"
 
 void _createTxtMessage(struct mensagem* new, char* from, char* phrase){

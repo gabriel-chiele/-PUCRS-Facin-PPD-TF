@@ -1,6 +1,8 @@
 #ifndef USER_HEADER
 #define USER_HEADER
 
+#include <stdio.h>
+#include <string.h>
 #include "grupo.h"
 
 typedef struct user{

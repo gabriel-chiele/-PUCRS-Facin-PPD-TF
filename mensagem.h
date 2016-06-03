@@ -1,6 +1,7 @@
 #ifndef MENSAGEM_HEADER
 #define MENSAGEM_HEADER
 
+#include <stdio.h>
 #include "contato.h"
 
 #define TAM_MAX_MSG 32

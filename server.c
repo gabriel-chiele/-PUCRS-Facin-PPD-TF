@@ -1,35 +1,28 @@
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <stdio.h>
-#include <string.h>
-#include <pthread.h>
-
 #include "server.h"
-#include "mensagem.h"
 
-void initThread(void){
+void initServerThread(pthread_t *id){
 	int err;
-	pthread_t id;
 	err = pthread_create(&id, NULL, &serverThread, NULL);
-	printf("iniciei a thread\n");
 }
 
+// TODO: handleMsg should be altered to handle all kinds of MSGs, sice now it only accepts txt MSGs
 void* handleMsg(int send_socket){
 	struct mensagem msg;
 	int bytes_received;
 	do{
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
-		printf("%s sent: %s\n", msg.from, msg.msg);
+		if(msg.tipo == MSG_TXT)
+			printf("%s sent: %s\n", msg.from, msg.msg);
+		else if(msg.tipo == ADD_CONTATO)
+			printf("Still not being handle!");
+			// TODO: create a contact at global user.
 	}while (msg.msg[0] != '.'); 
 
 	close(send_socket);
 	return(0);
 }
 
-void* serverThread(void){  
-	printf("dentro da thread 1\n");     
+void* serverThread(void){     
 	int main_socket, err, id; 
 	int send_socket, port = 1024;                                         
 	struct sockaddr_in server; 

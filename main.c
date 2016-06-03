@@ -11,6 +11,7 @@ FILE* user_file;
 char login[8];
 char user_fileName[15];
 int errn = 0;
+pthread_t id;
 
 int main(void){
 
@@ -40,7 +41,14 @@ int main(void){
 		}
 	}
 
-	initThread();
-	while(1);
-	//atexit(close);
+	initServerThread(&id);
+	while(1){
+		// TODO: add the command parser here along with client thread
+		char aux[5];
+		gets(aux);
+		if(aux[0] == '.')
+			break;
+	}
+
+	atexit(close);
 }

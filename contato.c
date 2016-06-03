@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "contato.h"
 
 void _createContato(struct contato* new, char* name, char* ip){

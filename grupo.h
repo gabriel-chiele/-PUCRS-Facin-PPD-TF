@@ -1,6 +1,8 @@
 #ifndef GRUPO_HEADER
 #define GRUPO_HEADER
 
+#include <stdio.h>
+
 #include "contato.h"
 
 typedef struct grupo{
