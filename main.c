@@ -2,6 +2,7 @@
 
 #include "user.h"
 #include "utils.h"
+#include "client.h"
 #include "server.h"
 
 #define DEBUG
@@ -48,6 +49,11 @@ int main(void){
 		gets(aux);
 		if(aux[0] == '.')
 			break;
+/*
+		_createTxtMessage(&msg, usuario.userName,"msg em si")
+		allocInfo(&info,"ip para onde mandar", msg);
+		initClientThread(info);
+*/
 	}
 
 	atexit(close);

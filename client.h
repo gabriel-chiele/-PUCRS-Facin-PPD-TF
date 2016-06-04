@@ -15,7 +15,7 @@ typedef struct clientInfo{
 	struct mensagem *msg;
 }clientInfo;
 
+int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr);
 void* initClientThread(struct clientInfo info);
-void* sendThread(struct mensagem *msg);
 
 #endif
