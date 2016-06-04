@@ -8,8 +8,8 @@
 
 struct user usuario;
 FILE* user_file;
-char login[8];
-char user_fileName[15];
+char login[9];
+char user_fileName[16];
 int errn = 0;
 pthread_t id;
 

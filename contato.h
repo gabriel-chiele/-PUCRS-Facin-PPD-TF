@@ -6,9 +6,9 @@
 #include <string.h>
 
 typedef struct contato{
-	char _name[8];
+	char _name[9];
 	char _ip[16];
-	char file_name[25];
+	char file_name[26];
 }contato;
 
 void _createContato(struct contato* new, char* name, char* ip);

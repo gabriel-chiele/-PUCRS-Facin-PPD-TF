@@ -6,8 +6,8 @@
 #include "grupo.h"
 
 typedef struct user{
-	char userName[8];
-	char file_name[25];
+	char userName[9];
+	char file_name[26];
 	int nContatos;
 	int nGrupos;
 	struct contato contatos[8];

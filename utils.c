@@ -58,6 +58,9 @@ void exitWithERROR(void){
 		case 2:
 			printf("\tUser file couldn't be created for some reason.\n");
 			break;
+		case 3:
+			printf("\t?\n");
+			break;
 		default:
 			printf("\tUndefined error occurred.\n\tPlease, contact developers.");
 			break;

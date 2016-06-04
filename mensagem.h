@@ -19,7 +19,7 @@
 typedef struct mensagem{
 	int tipo;
 	char msg[TAM_MAX_MSG];
-	char from[8];
+	char from[9];
 	int estado;
 }mensagem;
 
