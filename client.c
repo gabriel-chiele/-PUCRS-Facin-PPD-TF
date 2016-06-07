@@ -40,6 +40,4 @@ void* initClientThread(struct clientInfo info){
 	close(send_socket);
 	exit(0);
 }
- void main(void){
- 	printf("dah");
- }
+

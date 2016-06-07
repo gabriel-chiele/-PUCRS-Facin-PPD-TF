@@ -1,20 +1,35 @@
 #include "utils.h"
 
-void  readSTDIN(void){
+void readSTDIN(void){
 	char string[1024];
-	char *aux, comando; 
+	char *aux, comando, hash; 
 	int i, j, count = 0;
-	while(1){
-		gets(string);
-		/* TODO:
-		sscanf(string,"%s",comando);
+
+	fgets(string, sizeof(string), stdin);
+	hash = string[0];
+	if(hash == '#'){
+		comando = tolower(string[1]);
 		switch(comando){
-			// if the 'comando' is a commad with static number of arguments then utilize sscanf
-			// else if the command has variable size, then count the number of spaces to know his size
-			// then treat properly
+			case 'i': // add contato com nome e ip dado
+				printf("Funciona\n");
+				break;
+			case 'g': // add grupo com os nomes dados
+				printf("Funciona\n");
+				break;
+			case 'l': // lista as msg do contato com o nome dado
+				printf("Funciona\n");
+				break;
+			case 's': // envia msg para o contato com o nome dado
+				printf("Funciona\n");
+				break;
+			case 'c': // lista todos os contatos e grupos do usuario
+				printf("Funciona\n");
+				break;
+			default: 
+				printf("N funciona\n");
+				break;
 		}
-		*/
-		for(i=0;i<strlen(string);i++){
+		/*for(i=0;i<strlen(string);i++){
 			if(string[i] == ' ' || string[i] == NULL){
 				aux = (char*)calloc((i - count),sizeof(char));
 				for(j=count;j<i;j++) 
@@ -23,8 +38,9 @@ void  readSTDIN(void){
 				count = i;
 				printf("%d\n",count);
 			}
-		}
+		}*/
 	}
+	else printf("\t\t    Comando Invalido\n");
 }
 
 void close(void){
