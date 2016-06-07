@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "user.h"
 #include "utils.h"
 #include "client.h"
@@ -9,13 +7,14 @@
 
 struct user usuario;
 FILE* user_file;
-char login[9];
-char user_fileName[16];
-int errn = 0;
+char login[9], user_fileName[16], string[1024];
+char comando, hash, blank;
+int errn = 0, i = 0, nArgs = 0;
 pthread_t id;
-char aux[5];
 
 int main(void){
+
+	/** login do usuario **/
 
 	printf("\t\t\tWhatsPPD\nUsuario:");
 	fgets(login,sizeof(login),stdin);
@@ -43,19 +42,54 @@ int main(void){
 		}
 	}
 
+	printf("\n");
 	initServerThread(&id);
+	
+	/** loop para leitura de comandos **/	
+
 	while(1){
-		// TODO: add the command parser here along with client thread
-		//gets(aux);
-		if(aux[0] == '.')
-			break;
-		readSTDIN();
-		aux[0] = '.';
-/*
-		_createTxtMessage(&msg, usuario.userName,"msg em si")
+		fgets(string, sizeof(string), stdin);
+		hash = string[0];
+		blank = string[2];
+		if(hash == '#' && blank == ' '){
+			comando = tolower(string[1]);
+			for(i=3;i<strlen(string);i++){
+				if(string[i] == ' ' || string[i] == NULL){
+					nArgs++;
+				}
+			}
+			switch(comando){
+				case 'i': // add contato com nome e ip dado
+					printf("%d",nArgs);
+					if(nArgs == 1)
+						printf("Funciona\n");
+					break;
+				case 'g': // add grupo com os nomes dados
+					if(nArgs >= 2)
+						printf("Funciona\n");
+					break;
+				case 'l': // lista as msg do contato com o nome dado
+					if((strlen(string) <= 4) && (nArgs == 0))
+						printf("Funciona\n");
+					break;
+				case 's': // envia msg para o contato com o nome dado
+					if(nArgs >= 1)
+						printf("Funciona\n");
+					break;
+				case 'c': // lista todos os contatos e grupos do usuario
+					if(strlen(string) <= 4)
+						printf("Funciona\n");
+					break;
+				default: // 
+					printf("N funciona\n");
+					break;
+			}
+		}
+		else printf("\t\t    Comando Invalido\n");
+
+/*		_createTxtMessage(&msg, usuario.userName,"msg em si")
 		allocInfo(&info,"ip para onde mandar", msg);
-		initClientThread(info);
-*/
+		initClientThread(info);*/
 	}
 
 	#ifndef DEBUG

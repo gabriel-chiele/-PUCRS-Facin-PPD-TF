@@ -8,7 +8,6 @@
 #include <dirent.h> 
 #include <pthread.h>
 
-void readSTDIN(void);
 void close(void);
 void exitWithERROR(void);
 int searchUser(char* username);
