@@ -55,6 +55,8 @@ void AddContact(struct user* u, char* name, char* ip){
 	else printf("You don't have capacity to add a new contact !");
 }
 
+// TODO: test this load method with the new save method \
+	if doesn't work than change this load method.
 int loadUser(struct user *usuario, char* user_fileName){
 	FILE* userfile = fopen(user_fileName, "rb");
 	if(userfile != NULL){
@@ -66,11 +68,32 @@ int loadUser(struct user *usuario, char* user_fileName){
 }
 
 int saveUser(struct user *usuario, char* user_fileName){
-	// TODO: add a case where the file already exist then delete the existing one and re-save the file,\
-	   just to avoid the need to append.
+	// NOTE: Opening file with 'wb' will delete existent files
+	int i = 0;
+	int total = usuario->nContatos + usuario->nGrupos;
 	FILE* userfile = fopen(user_fileName, "wb");
 	if(userfile != NULL){
-		fwrite(usuario, sizeof(struct user), 1, userfile);
+		/** save user name and filename **/
+		fwrite(usuario->userName, sizeof(usuario->userName), 1, userfile);
+		fwrite(usuario->file_name, sizeof(usuario->file_name), 1, userfile);
+		/** save number of cantacts and number of gruops **/
+		fwrite(&(usuario->nContatos), sizeof(int), 1, userfile);
+		fwrite(&(usuario->nGrupos), sizeof(int), 1, userfile);
+		/** loop that saves contacts and gropus **/
+		for(i = 0; i< total; i++){
+			if(i < usuario->nContatos){
+				/** create save contato method **/
+				fwrite((usuario->contatos[i]._name), sizeof(usuario->contatos[i]._name), 1, userfile);
+				fwrite((usuario->contatos[i]._ip), sizeof(usuario->contatos[i]._ip), 1, userfile);
+				fwrite((usuario->contatos[i].file_name), sizeof(usuario->contatos[i].file_name), 1, userfile);
+			}
+			else{
+				/** create save grupo method **/
+				fwrite((usuario->grupos[i]._name), sizeof(usuario->contatos[i]._name), 1, userfile);
+				fwrite((usuario->grupos[i].file_name), sizeof(usuario->contatos[i]._ip), 1, userfile);
+				// add save contato method here
+			}
+		}
 		fclose(userfile);
 		return 1; 
 	}
