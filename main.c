@@ -14,7 +14,6 @@ pthread_t id;
 
 int main(void){
 
-	memset(&usuario,0,sizeof(struct user));
 	/** login do usuario **/
 
 	printf("\t\t\tWhatsPPD\nUsuario:");
@@ -34,7 +33,7 @@ int main(void){
 	}
 	else{
 		_createUser(&usuario,login);
-		AddContact(&usuario, "gabriel", "127.0.0.1");
+		//AddContact(&usuario, "gabriel", "127.0.0.1");
 		#ifdef DEBUG
 			DEBUG_printUser(&usuario);
 		#endif
@@ -89,7 +88,7 @@ int main(void){
 		}
 		else printf("\t\t    Comando Invalido\n");
 
-/*		_createTxtMessage(&msg, usuario.userName,"msg em si")
+		/*_createTxtMessage(&msg, usuario.userName,"msg em si")
 		allocInfo(&info,"ip para onde mandar", msg);
 		initClientThread(info);*/
 	}
