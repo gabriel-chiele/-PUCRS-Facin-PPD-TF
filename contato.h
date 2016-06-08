@@ -12,7 +12,7 @@ typedef struct contato{
 }contato;
 
 void _createContato(struct contato* new, char* name, char* ip);
-
+void saveContato(FILE* file ,struct contato* contato);
 void _listMsgs(struct contato* contact_list, char* name, int nContatos);
 
 #endif

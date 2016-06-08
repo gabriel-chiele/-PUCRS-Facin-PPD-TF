@@ -83,15 +83,14 @@ int saveUser(struct user *usuario, char* user_fileName){
 		for(i = 0; i< total; i++){
 			if(i < usuario->nContatos){
 				/** create save contato method **/
-				fwrite((usuario->contatos[i]._name), sizeof(usuario->contatos[i]._name), 1, userfile);
-				fwrite((usuario->contatos[i]._ip), sizeof(usuario->contatos[i]._ip), 1, userfile);
-				fwrite((usuario->contatos[i].file_name), sizeof(usuario->contatos[i].file_name), 1, userfile);
+				saveContato(userfile, &(usuario->contatos[i]));
 			}
 			else{
 				/** create save grupo method **/
 				fwrite((usuario->grupos[i]._name), sizeof(usuario->contatos[i]._name), 1, userfile);
 				fwrite((usuario->grupos[i].file_name), sizeof(usuario->contatos[i]._ip), 1, userfile);
-				// add save contato method here
+				// colocar um 'for' que itera os contatos do grupo aqui
+					// add save contato method here
 			}
 		}
 		fclose(userfile);

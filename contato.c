@@ -6,6 +6,12 @@ void _createContato(struct contato* new, char* name, char* ip){
 	sprintf(new->file_name, "Messages/%s.msg", new->_name);
 }
 
+void saveContato(FILE* file ,struct contato* contato){
+	fwrite((contato->_name), sizeof(contato->_name), 1, file);
+	fwrite((contato->_ip), sizeof(contato->_ip), 1, file);
+	fwrite((contato->file_name), sizeof(contato->file_name), 1, file);
+}
+
 void _listMsgs(struct contato* contact_list, char* name, int nContatos){
 	int i;
 	for (i = 0; i < nContatos; ++i){

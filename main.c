@@ -14,10 +14,12 @@ pthread_t id;
 
 int main(void){
 
+	memset(&usuario,0,sizeof(struct user));
 	/** login do usuario **/
 
 	printf("\t\t\tWhatsPPD\nUsuario:");
 	fgets(login,sizeof(login),stdin);
+	login[strlen(login)-1] = '\0';
 	sprintf(user_fileName,"Users/%s.u",login);
 	if(searchUser(user_fileName)){
 		if(!loadUser(&usuario, user_fileName)){
@@ -32,7 +34,7 @@ int main(void){
 	}
 	else{
 		_createUser(&usuario,login);
-		//AddContact(&usuario, "gabriel", "127.0.0.1");
+		AddContact(&usuario, "gabriel", "127.0.0.1");
 		#ifdef DEBUG
 			DEBUG_printUser(&usuario);
 		#endif
