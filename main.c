@@ -11,6 +11,7 @@ FILE* user_file;
 int errn = 0;
 pthread_t id;
 
+
 int main(void){
 	char login[9], user_fileName[16], string[1024];
 	char comando, hash, blank;
