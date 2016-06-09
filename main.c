@@ -4,21 +4,23 @@
 #include "server.h"
 
 #define DEBUG
+//#define ADD_CONTACT
 
 struct user usuario;
 FILE* user_file;
-char login[9], user_fileName[16], string[1024];
-char comando, hash, blank;
-int errn = 0, i = 0, nArgs = 0;
+int errn = 0;
 pthread_t id;
 
 int main(void){
+	char login[9], user_fileName[16], string[1024];
+	char comando, hash, blank;
+	int i = 0, nArgs = 0;
 
 	/** login do usuario **/
 
 	printf("\t\t\tWhatsPPD\nUsuario:");
 	fgets(login,sizeof(login),stdin);
-	login[strlen(login)-1] = '\0';
+	login[strlen(login)-1] = '\0'; // ADD NULL CHARACTER AT THE END OF USER NAME
 	sprintf(user_fileName,"Users/%s.u",login);
 	if(searchUser(user_fileName)){
 		if(!loadUser(&usuario, user_fileName)){
@@ -33,7 +35,9 @@ int main(void){
 	}
 	else{
 		_createUser(&usuario,login);
-		//AddContact(&usuario, "gabriel", "127.0.0.1");
+		#ifdef ADD_CONTACT
+			AddContact(&usuario, "gabriel", "127.0.0.1");
+		#endif
 		#ifdef DEBUG
 			DEBUG_printUser(&usuario);
 		#endif
