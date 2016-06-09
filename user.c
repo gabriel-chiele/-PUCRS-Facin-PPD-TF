@@ -11,30 +11,30 @@ int ContactwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
 		if(!strcmp(u->contatos->_name,name))
-			return 1;
+			return i;
 		else continue;
 	}
-	return 0;
+	return -1;
 }
 
 int ContactwithNameIP(struct user* u, char* ip){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
 		if(!strcmp(u->contatos->_ip,ip))
-			return 1;
+			return i;
 		else continue;
 	}
-	return 0;
+	return -1;
 }
 
 int GroupwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nGrupos);i++){
 		if(!strcmp(u->grupos->_name,name))
-			return 1;
+			return i;
 		else continue;
 	}
-	return 0;
+	return -1;
 }
 
 //TODO: testar se contato está na lista de contatos, se ñ está tem q add, atualizar lista de grupos no arquivo do usuario
@@ -96,6 +96,20 @@ int saveUser(struct user *usuario, char* user_fileName){
 		return 1; 
 	}
 	else return 0;
+}
+
+void printUserContacts(struct user *usuario){
+	int i =0, j=0;
+	for(i=0; i < usuario->nContatos + usuario->nGrupos; i++){
+		if(i < usuario->nContatos)
+			printf("%s\n", usuario->contatos[i]._name);
+		else{
+			printf("%s:\n", usuario->grupos[i]._name);
+			for(j=0; j < usuario->nGrupos; j++){
+				printf("%s - ip:%s", usuario->grupos[i].contatos[j]._name, usuario->grupos[i].contatos[j]._ip);
+			}
+		}
+	}
 }
 
 void DEBUG_printUser(struct user *usuario){
