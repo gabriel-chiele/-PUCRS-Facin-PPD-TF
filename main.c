@@ -3,7 +3,7 @@
 #include "client.h"
 #include "server.h"
 
-#define DEBUG
+//#define DEBUG
 //#define ADD_CONTACT
 
 struct user usuario;
@@ -21,19 +21,20 @@ int main(void){
 	printf("\t\t\tWhatsPPD\nUsuario:");
 	fgets(login,sizeof(login),stdin);
 	login[strlen(login)-1] = '\0'; // ADD NULL CHARACTER AT THE END OF USER NAME
-	sprintf(user_fileName,"Users/%s.u",login);
+	sprintf(user_fileName,"%s.u",login);
 	if(searchUser(user_fileName)){
 		if(!loadUser(&usuario, user_fileName)){
 			errn = 1;
-			atexit(exitWithERROR);	
+			atexit(exitWithERROR);
+			return;	
 		}
 		#ifdef DEBUG
-		else{
+			printf("DEBUG\n");
 			DEBUG_printUser(&usuario);
-		}
 		#endif
 	}
 	else{
+		sprintf(user_fileName,"Users/%s.u",login);
 		_createUser(&usuario,login);
 		#ifdef ADD_CONTACT
 			AddContact(&usuario, "gabriel", "127.0.0.1");

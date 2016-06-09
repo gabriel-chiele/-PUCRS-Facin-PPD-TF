@@ -55,12 +55,18 @@ void AddContact(struct user* u, char* name, char* ip){
 	else printf("You don't have capacity to add a new contact !");
 }
 
-// TODO: test this load method with the new save method \
-	if doesn't work than change this load method.
 int loadUser(struct user *usuario, char* user_fileName){
-	FILE* userfile = fopen(user_fileName, "rb");
+	char aux[25];
+	snprintf(aux,sizeof(aux),"Users/%s",user_fileName);
+	FILE* userfile = fopen(aux, "rb");
 	if(userfile != NULL){
-		fread(usuario, sizeof(struct user), 1, userfile);
+		fread(usuario->userName, sizeof(usuario->userName), 1, userfile);
+		fread(usuario->file_name, sizeof(usuario->file_name), 1, userfile);
+		fread(&usuario->nContatos, sizeof(int), 1, userfile);
+		fread(&usuario->nGrupos, sizeof(int), 1, userfile);
+		//printf("lendo nGrupos : %d\n",&usuario->nGrupos);
+		// TODO: loadContato
+		// TODO: loadGrupo
 		fclose(userfile);
 		return 1;
 	}

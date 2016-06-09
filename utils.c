@@ -13,8 +13,9 @@ int searchUser(char* username){
 	d = opendir("Users");
 	if (d){
 		while ((dir = readdir(d)) != NULL){
-			if(!strcmp(dir->d_name,username))
+			if(!strcmp(dir->d_name,username)){
 				return 1;
+			}
 		}
 		closedir(d);
 	}
