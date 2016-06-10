@@ -8,7 +8,10 @@
 #include <dirent.h> 
 #include <pthread.h>
 
+#include "user.h"
+
 void Login(char* user_fileName);
+void executeComandInsertion(struct user* usuario, char* string, int nArgs, char* fileName);
 void close(void);
 void exitWithERROR(void);
 int searchUser(char* username);

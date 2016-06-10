@@ -37,6 +37,47 @@ void Login(char* user_fileName){
 	}
 }
 
+void executeComandInsertion(struct user* usuario, char* string, int nArgs, char* fileName){
+	extern int errn;
+	char name[9],ip[16];
+	int blank_location = 0, i =0;
+
+	memset(ip,'\0',sizeof(ip));
+	memset(name,'\0',sizeof(name));
+
+	if(nArgs == 1){
+		for(i=3;i<strlen(string);i++){
+			if(string[i] == ' '){
+				blank_location = i;
+			}
+			else{
+				if(blank_location > 0){
+					ip[i-blank_location-1] = string[i];
+					if(string[i] == '\n'){
+						ip[i-blank_location-1] = '\0';
+						break;
+					}
+				}
+				else{
+					name[i-3] = string[i];
+				}
+			}
+		}
+		if( !((ContactExist(usuario,name,ip)) > -1 )){
+			AddContact(usuario, name, ip);
+			if(!saveUser(usuario, fileName)){
+				errn = 2;
+				atexit(exitWithERROR);
+			}
+		}
+		else printf("Contato com este nome ou ip já existe em sua lista de contatos\n\n");
+	}
+	#ifdef DEBUG
+		DEBUG_printUser(usuario);
+	#endif
+	blank_location = 0;
+}
+
 void close(void){
 	//TODO: Close client and server thread here, along with any possibly open file.
 	extern pthread_t id;

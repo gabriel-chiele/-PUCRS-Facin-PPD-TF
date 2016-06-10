@@ -7,6 +7,16 @@ void _createUser(struct user* new, char* name){
 	new->nGrupos = 0;
 }
 
+int ContactExist(struct user* u, char* name, char* ip){
+	int i;
+	for(i=0;i<(u->nContatos);i++){
+		if((!strcmp(u->contatos->_name,name)) || (!strcmp(u->contatos->_ip,ip)))
+			return i;
+		else continue;
+	}
+	return -1;
+}
+
 int ContactwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
@@ -17,7 +27,7 @@ int ContactwithNameExist(struct user* u, char* name){
 	return -1;
 }
 
-int ContactwithNameIP(struct user* u, char* ip){
+int ContactwithIPExist(struct user* u, char* ip){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
 		if(!strcmp(u->contatos->_ip,ip))
@@ -115,6 +125,7 @@ void printUserContacts(struct user *usuario){
 			}
 		}
 	}
+	printf("\n");
 }
 
 void DEBUG_printUser(struct user *usuario){

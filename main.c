@@ -14,7 +14,7 @@ pthread_t id;
 int main(void){
 	char user_fileName[16];
 	char comando, hash, blank;
-	char name[9],ip[16], string[1024];
+	char string[1024];
 	int i = 0, nArgs = 0, blank_location = 0;
 
 	Login(user_fileName);
@@ -37,36 +37,7 @@ int main(void){
 			}
 			switch(comando){
 				case 'i': // add contato com nome e ip dado
-					if(nArgs == 1){
-						for(i=3;i<strlen(string);i++){
-							if(string[i] == ' '){
-								blank_location = i;
-							}
-							else{
-								if(blank_location > 0){
-									ip[i-blank_location-1] = string[i];
-									if(string[i] == '\n'){
-										ip[i-blank_location-1] = '\0';
-										break;
-									}
-								}
-								else{
-									name[i-3] = string[i];
-								}
-							}
-						}
-						printf("%s\n,%s\n", name, ip);
-						//TODO: verificar se contato com este nome ou ip já existe
-						AddContact(&usuario, name, ip);
-						if(!saveUser(&usuario, user_fileName)){
-							errn = 2;
-							atexit(exitWithERROR);
-						}
-					}
-					#ifdef DEBUG
-						DEBUG_printUser(&usuario);
-					#endif
-					blank_location = 0;
+					executeComandInsertion(&usuario, string, nArgs, user_fileName);
 					break;
 				case 'g': // add grupo com os nomes dados
 					if(nArgs >= 2)
