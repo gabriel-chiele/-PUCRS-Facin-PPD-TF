@@ -12,42 +12,12 @@ int errn = 0;
 pthread_t id;
 
 int main(void){
-	char login[9], user_fileName[16], string[1024];
+	char user_fileName[16];
 	char comando, hash, blank;
-	char name[9],ip[16];
+	char name[9],ip[16], string[1024];
 	int i = 0, nArgs = 0, blank_location = 0;
 
-	/** login do usuario **/
-	printf("\t\t\tWhatsPPD\nUsuario:");
-	fgets(login,sizeof(login),stdin);
-	login[strlen(login)-1] = '\0'; // ADD NULL CHARACTER AT THE END OF USER NAME
-	sprintf(user_fileName,"%s.u",login);
-	if(searchUser(user_fileName)){
-		if(!loadUser(&usuario, user_fileName)){
-			errn = 1;
-			atexit(exitWithERROR);
-			return;	
-		}
-		sprintf(user_fileName,"Users/%s.u",login);
-		#ifdef DEBUG
-			printf("DEBUG\n");
-			DEBUG_printUser(&usuario);
-		#endif
-	}
-	else{
-		sprintf(user_fileName,"Users/%s.u",login);
-		_createUser(&usuario,login);
-		#ifdef ADD_CONTACT
-			AddContact(&usuario, "gabriel", "127.0.0.1");
-		#endif
-		#ifdef DEBUG
-			DEBUG_printUser(&usuario);
-		#endif
-		if(!saveUser(&usuario, user_fileName)){
-			errn = 2;
-			atexit(exitWithERROR);
-		}
-	}
+	Login(user_fileName);
 
 	printf("\n");
 	initServerThread(&id);
