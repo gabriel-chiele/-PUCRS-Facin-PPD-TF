@@ -57,6 +57,7 @@ void AddContact(struct user* u, char* name, char* ip){
 
 int loadUser(struct user *usuario, char* user_fileName){
 	char aux[25];
+	int i =0;
 	snprintf(aux,sizeof(aux),"Users/%s",user_fileName);
 	FILE* userfile = fopen(aux, "rb");
 	if(userfile != NULL){
@@ -64,9 +65,12 @@ int loadUser(struct user *usuario, char* user_fileName){
 		fread(usuario->file_name, sizeof(usuario->file_name), 1, userfile);
 		fread(&usuario->nContatos, sizeof(int), 1, userfile);
 		fread(&usuario->nGrupos, sizeof(int), 1, userfile);
-		//printf("lendo nGrupos : %d\n",&usuario->nGrupos);
-		// TODO: loadContato
-		// TODO: loadGrupo
+		for(i=0;i< (usuario->nContatos + usuario->nGrupos);i++){
+			if(i<usuario->nContatos)
+				loadContato(userfile , &(usuario->contatos[i]));
+			//else TODO: loadGrupo
+		}
+		
 		fclose(userfile);
 		return 1;
 	}
@@ -101,8 +105,9 @@ int saveUser(struct user *usuario, char* user_fileName){
 void printUserContacts(struct user *usuario){
 	int i =0, j=0;
 	for(i=0; i < usuario->nContatos + usuario->nGrupos; i++){
-		if(i < usuario->nContatos)
+		if(i < usuario->nContatos){
 			printf("%s\n", usuario->contatos[i]._name);
+		}
 		else{
 			printf("%s:\n", usuario->grupos[i]._name);
 			for(j=0; j < usuario->nGrupos; j++){
@@ -115,14 +120,5 @@ void printUserContacts(struct user *usuario){
 void DEBUG_printUser(struct user *usuario){
 	int i = 0, j = 0;
 	printf("Name:%s\nnContatos:%d\nnGrupos:%d\n", usuario->userName, usuario->nContatos, usuario->nGrupos);
-	for(i=0; i < usuario->nContatos + usuario->nGrupos; i++){
-		if(i < usuario->nContatos)
-			printf("%s\n", usuario->contatos[i]._name);
-		else{
-			printf("%s:\n", usuario->grupos[i]._name);
-			for(j=0; j < usuario->nGrupos; j++){
-				printf("%s - ip:%s", usuario->grupos[i].contatos[j]._name, usuario->grupos[i].contatos[j]._ip);
-			}
-		}
-	}
+	printUserContacts(usuario);
 }

@@ -12,6 +12,12 @@ void saveContato(FILE* file ,struct contato* contato){
 	fwrite((contato->file_name), sizeof(contato->file_name), 1, file);
 }
 
+void loadContato(FILE* file ,struct contato* contato){
+	fread(contato->_name, sizeof(contato->_name), 1, file);
+	fread(contato->_ip, sizeof(contato->_ip), 1, file);
+	fread(contato->file_name, sizeof(contato->file_name), 1, file);
+}
+
 void _listMsgs(struct contato* contact_list, char* name, int nContatos){
 	int i;
 	for (i = 0; i < nContatos; ++i){

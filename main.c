@@ -3,14 +3,13 @@
 #include "client.h"
 #include "server.h"
 
-#define DEBUG
+//#define DEBUG
 //#define ADD_CONTACT
 
 struct user usuario;
 FILE* user_file;
 int errn = 0;
 pthread_t id;
-
 
 int main(void){
 	char login[9], user_fileName[16], string[1024];
@@ -19,7 +18,6 @@ int main(void){
 	int i = 0, nArgs = 0, blank_location = 0;
 
 	/** login do usuario **/
-
 	printf("\t\t\tWhatsPPD\nUsuario:");
 	fgets(login,sizeof(login),stdin);
 	login[strlen(login)-1] = '\0'; // ADD NULL CHARACTER AT THE END OF USER NAME
@@ -30,6 +28,7 @@ int main(void){
 			atexit(exitWithERROR);
 			return;	
 		}
+		sprintf(user_fileName,"Users/%s.u",login);
 		#ifdef DEBUG
 			printf("DEBUG\n");
 			DEBUG_printUser(&usuario);
@@ -54,7 +53,6 @@ int main(void){
 	initServerThread(&id);
 	
 	/** loop para leitura de comandos **/	
-
 	while(1){
 		memset(string,'\0',sizeof(string));
 		fgets(string, sizeof(string), stdin);
@@ -87,12 +85,18 @@ int main(void){
 								}
 							}
 						}
+						printf("%s\n,%s\n", name, ip);
+						//TODO: verificar se contato com este nome ou ip já existe
+						AddContact(&usuario, name, ip);
+						if(!saveUser(&usuario, user_fileName)){
+							errn = 2;
+							atexit(exitWithERROR);
+						}
 					}
-					//TODO: verificar se contato com este nome ou ip já existe
-					AddContact(&usuario, name, ip);
-							#ifdef DEBUG
-								DEBUG_printUser(&usuario);
-							#endif
+					#ifdef DEBUG
+						DEBUG_printUser(&usuario);
+					#endif
+					blank_location = 0;
 					break;
 				case 'g': // add grupo com os nomes dados
 					if(nArgs >= 2)
