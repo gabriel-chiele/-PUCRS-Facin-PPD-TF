@@ -7,7 +7,7 @@ int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr){
 	new->msg = ptr;
 }
 
-void* initClientThread(struct clientInfo info){
+void initClientThread(struct clientInfo info){
 
 	int send_socket, port = 1024;
 
@@ -40,4 +40,3 @@ void* initClientThread(struct clientInfo info){
 	close(send_socket);
 	exit(0);
 }
-

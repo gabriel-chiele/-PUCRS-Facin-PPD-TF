@@ -78,6 +78,56 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 	blank_location = 0;
 }
 
+/*
+typedef struct clientInfo{
+	char host_ip[16];
+	struct mensagem *msg;
+}clientInfo;
+
+allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr)
+*/
+
+void executeComandSend(struct user* usuario, char* string, int nArgs, char* fileName){
+	extern int errn;
+	struct mensagem msg;
+	struct clientInfo info;
+	char name[9], phrase[TAM_MAX_MSG];
+	int blank_location = 0, i =0, loc = -1;
+
+	memset(name,'\0',sizeof(name));
+	memset(phrase,'\0',sizeof(phrase));
+
+	if(nArgs == 1){
+		for(i=3;i<strlen(string);i++){
+			if(string[i] == ' ' && blank_location == 0){
+				blank_location = i;
+			}
+			else{
+				if(blank_location > 0){
+					phrase[i-blank_location-1] = string[i];
+					if(string[i] == '\n'){
+						phrase[i-blank_location-1] = '\0';
+						break;
+					}
+				}
+				else{
+					name[i-3] = string[i];
+				}
+			}
+		}
+		if((loc = ContactwithNameExist(usuario, name)) >= 0){
+			_createTxtMessage(&msg, usuario->userName, phrase);
+			allocInfo(&info, usuario->contatos[loc]._ip, &msg);
+			//TOOD: rework client method
+			initClientThread(info);
+		}
+	}
+	#ifdef DEBUG
+		DEBUG_printUser(usuario);
+	#endif
+	blank_location = 0;
+}
+
 void close(void){
 	//TODO: Close client and server thread here, along with any possibly open file.
 	extern pthread_t id;
@@ -118,4 +168,3 @@ void exitWithERROR(void){
 			break;
 	}
 }
-

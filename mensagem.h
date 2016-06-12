@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "contato.h"
 
-#define TAM_MAX_MSG 32
+#define TAM_MAX_MSG 33
 
 /** STATUS DA MSG **/
 #define CRIADA 0
