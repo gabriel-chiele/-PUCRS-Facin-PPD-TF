@@ -2,4 +2,6 @@
 
 gcc -w serverTest.c ../contato.c ../mensagem.c -o exe -lpthread
 
+./exe
+
 #clear

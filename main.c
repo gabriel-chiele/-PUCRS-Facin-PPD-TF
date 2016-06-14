@@ -50,7 +50,7 @@ int main(void){
 					break;
 				case 's': // envia msg para o contato com o nome dado
 					if(nArgs >= 1)
-						printf("Funciona\n");
+						executeComandSend(&usuario, string, nArgs, user_fileName);
 					break;
 				case 'c': // lista todos os contatos e grupos do usuario
 					if(nArgs == 0){

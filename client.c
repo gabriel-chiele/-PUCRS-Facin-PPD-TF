@@ -7,7 +7,7 @@ int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr){
 	new->msg = ptr;
 }
 
-void initClientThread(struct clientInfo info){
+void initClientThread(struct clientInfo* info){
 
 	int send_socket, port = 1024;
 
@@ -19,9 +19,10 @@ void initClientThread(struct clientInfo info){
 		return;
 	}
 
-	host = gethostbyname(info.host_ip);
+	host = gethostbyname(info->host_ip);
+	printf("&d",host);
 	if (host == 0) {
-		fprintf(stderr,"%s: unkown host",info.host_ip);
+		fprintf(stderr,"%s: unkown host",info->host_ip);
 		return;
 	}
 
@@ -34,8 +35,8 @@ void initClientThread(struct clientInfo info){
 		exit(1);
 	}
 
-    printf("Enviei: %s \n",info.msg->msg);
-	send(send_socket, info.msg, sizeof(struct mensagem), 0);
+    printf("Enviei: %s \n",info->msg->msg);
+	send(send_socket, info->msg, sizeof(struct mensagem), 0);
 
 	close(send_socket);
 	exit(0);

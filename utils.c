@@ -78,26 +78,19 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 	blank_location = 0;
 }
 
-/*
-typedef struct clientInfo{
-	char host_ip[16];
-	struct mensagem *msg;
-}clientInfo;
-
-allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr)
-*/
-
 void executeComandSend(struct user* usuario, char* string, int nArgs, char* fileName){
 	extern int errn;
 	struct mensagem msg;
 	struct clientInfo info;
 	char name[9], phrase[TAM_MAX_MSG];
 	int blank_location = 0, i =0, loc = -1;
-
+	
+	printf("debug:%d\n", usuario->nContatos);
 	memset(name,'\0',sizeof(name));
 	memset(phrase,'\0',sizeof(phrase));
-
-	if(nArgs == 1){
+	printf("Entrou send\n");
+	printf("nArgs: %d\n", nArgs);
+	if(nArgs >= 1){
 		for(i=3;i<strlen(string);i++){
 			if(string[i] == ' ' && blank_location == 0){
 				blank_location = i;
@@ -115,12 +108,16 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 				}
 			}
 		}
+		printf("NAME:%s, msg:%s\n", name, phrase);
 		if((loc = ContactwithNameExist(usuario, name)) >= 0){
+			printf("LOC: %d\n", &loc);
 			_createTxtMessage(&msg, usuario->userName, phrase);
 			allocInfo(&info, usuario->contatos[loc]._ip, &msg);
 			//TOOD: rework client method
-			initClientThread(info);
+			initClientThread(&info);
 		}
+		printf("LOC: %d\n", loc);
+		printf("TERMINOU !!");
 	}
 	#ifdef DEBUG
 		DEBUG_printUser(usuario);

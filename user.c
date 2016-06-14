@@ -19,8 +19,9 @@ int ContactExist(struct user* u, char* name, char* ip){
 
 int ContactwithNameExist(struct user* u, char* name){
 	int i;
+	printf("ncontatos: %d",u->nContatos);
 	for(i=0;i<(u->nContatos);i++){
-		if(!strcmp(u->contatos->_name,name))
+		if(!strcmp(u->contatos[i]._name,name))
 			return i;
 		else continue;
 	}
