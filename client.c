@@ -8,7 +8,7 @@ int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr){
 }
 
 void initClientThread(struct clientInfo* info){
-
+	extern int errn;
 	int send_socket, port = 1024;
 
 	struct sockaddr_in server;
@@ -20,7 +20,6 @@ void initClientThread(struct clientInfo* info){
 	}
 
 	host = gethostbyname(info->host_ip);
-	printf("&d",host);
 	if (host == 0) {
 		fprintf(stderr,"%s: unkown host",info->host_ip);
 		return;
@@ -30,14 +29,13 @@ void initClientThread(struct clientInfo* info){
 	server.sin_family = AF_INET;
 	server.sin_port = htons(port);
 
-	if (connect(send_socket, (struct sockaddr *)&server, sizeof server ) < 0) {
-		fprintf(stderr,"Erro connectando stream socket\n");
-		exit(1);
+	if (connect(send_socket, (struct sockaddr *)&server, sizeof server ) < 0) {;
+		errn = 3;
+		exitWithERROR();
 	}
 
-    printf("Enviei: %s \n",info->msg->msg);
 	send(send_socket, info->msg, sizeof(struct mensagem), 0);
 
 	close(send_socket);
-	exit(0);
+	return;
 }

@@ -21,7 +21,7 @@ int main(void){
 
 	printf("\n");
 	//TODO: uncomments live below, serverthread commented for test matters
-	//initServerThread(&id);
+	initServerThread(&id);
 	
 	/** loop para leitura de comandos **/	
 	while(1){
@@ -73,6 +73,6 @@ int main(void){
 	}
 
 	#ifndef DEBUG
-		atexit(close);
+		atexit(closeWHATS);
 	#endif
 }

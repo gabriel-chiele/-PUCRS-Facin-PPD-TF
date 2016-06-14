@@ -12,7 +12,6 @@
 #include "mensagem.h"
 
 void initServerThread(pthread_t *id);
-void* handleMsg(int send_socket);
 void* serverThread(void);
 
 #endif

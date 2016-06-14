@@ -39,6 +39,8 @@ void Login(char* user_fileName){
 
 void executeComandInsertion(struct user* usuario, char* string, int nArgs, char* fileName){
 	extern int errn;
+	struct mensagem msg;
+	struct clientInfo info;
 	char name[9],ip[16];
 	int blank_location = 0, i =0;
 
@@ -69,6 +71,10 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 				errn = 2;
 				atexit(exitWithERROR);
 			}
+
+			_createAddContatoMessage(&msg, usuario->userName);
+			allocInfo(&info, ip, &msg);
+			initClientThread(&info);
 		}
 		else printf("Contato com este nome ou ip já existe em sua lista de contatos\n\n");
 	}
@@ -85,11 +91,8 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 	char name[9], phrase[TAM_MAX_MSG];
 	int blank_location = 0, i =0, loc = -1;
 	
-	printf("debug:%d\n", usuario->nContatos);
 	memset(name,'\0',sizeof(name));
 	memset(phrase,'\0',sizeof(phrase));
-	printf("Entrou send\n");
-	printf("nArgs: %d\n", nArgs);
 	if(nArgs >= 1){
 		for(i=3;i<strlen(string);i++){
 			if(string[i] == ' ' && blank_location == 0){
@@ -108,16 +111,11 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 				}
 			}
 		}
-		printf("NAME:%s, msg:%s\n", name, phrase);
 		if((loc = ContactwithNameExist(usuario, name)) >= 0){
-			printf("LOC: %d\n", &loc);
 			_createTxtMessage(&msg, usuario->userName, phrase);
 			allocInfo(&info, usuario->contatos[loc]._ip, &msg);
-			//TOOD: rework client method
 			initClientThread(&info);
 		}
-		printf("LOC: %d\n", loc);
-		printf("TERMINOU !!");
 	}
 	#ifdef DEBUG
 		DEBUG_printUser(usuario);
@@ -125,7 +123,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 	blank_location = 0;
 }
 
-void close(void){
+void closeWHATS(void){
 	//TODO: Close client and server thread here, along with any possibly open file.
 	extern pthread_t id;
 	pthread_join(id, NULL);
@@ -158,6 +156,9 @@ void exitWithERROR(void){
 			printf("\tUser file couldn't be created for some reason.\n");
 			break;
 		case 3:
+			printf("\tError connecting stream socket\n");
+			break;
+		case 4:
 			printf("\t?\n");
 			break;
 		default:

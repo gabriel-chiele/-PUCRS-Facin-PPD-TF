@@ -15,7 +15,7 @@
 void Login(char* user_fileName);
 void executeComandInsertion(struct user* usuario, char* string, int nArgs, char* fileName);
 void executeComandSend(struct user* usuario, char* string, int nArgs, char* fileName);
-void close(void);
+void closeWHATS(void);
 void exitWithERROR(void);
 int searchUser(char* username);
 
