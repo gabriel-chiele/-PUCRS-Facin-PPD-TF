@@ -6,12 +6,17 @@ void initServerThread(pthread_t *id){
 }
 
 void* serverThread(void){     
+	extern struct user usuario;
+	char file_name[26];
+	char msg_received[TAM_MAX_MSG];
 	int main_socket, err, id; 
 	int send_socket, port = 1024;    
 	int bytes_received;                                     
 	struct sockaddr_in server; 
 	struct sockaddr client;
 	socklen_t socket_length = sizeof(struct sockaddr);   
+
+	FILE* msgfile;
 
 	struct mensagem msg;                            
 	       
@@ -34,12 +39,19 @@ void* serverThread(void){
 		send_socket = accept(main_socket, &client, &socket_length);
 		printf("Talking to %d.%d.%d.%d \n",client.sa_data[2]&0x000000ff, client.sa_data[3]&0x000000ff, client.sa_data[4]&0x000000ff, client.sa_data[5]&0x000000ff); 
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
-		if(msg.tipo == MSG_TXT)
+		if(msg.tipo == MSG_TXT){
+			//TODO: criando o arquivo mas ñ salva corretamente a msg
+			sprintf(file_name,"Messages/%s.msg",msg.from);
+			msgfile = fopen(file_name, "ab");
+			strcpy(msg_received,msg.msg);
+			fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 			printf("%s sent: %s\n", msg.from, msg.msg);
-		else if(msg.tipo == ADD_CONTATO)
+			close(msgfile);
+		}
+		else if(msg.tipo == ADD_CONTATO){
 			printf("Still not being handle!");
 			// TODO: create a contact at global user.  
-
+		}
 		close(send_socket);
 	}
 

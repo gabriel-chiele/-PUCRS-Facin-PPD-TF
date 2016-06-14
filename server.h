@@ -9,6 +9,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "user.h"
 #include "mensagem.h"
 
 void initServerThread(pthread_t *id);

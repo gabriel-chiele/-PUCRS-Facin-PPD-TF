@@ -156,7 +156,7 @@ void exitWithERROR(void){
 			printf("\tUser file couldn't be created for some reason.\n");
 			break;
 		case 3:
-			printf("\tError connecting stream socket\n");
+			printf("\t   Error connecting stream socket\n");
 			break;
 		case 4:
 			printf("\t?\n");
