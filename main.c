@@ -20,7 +20,8 @@ int main(void){
 	Login(user_fileName);
 
 	printf("\n");
-	initServerThread(&id);
+	//TODO: uncomments live below, serverthread commented for test matters
+	//initServerThread(&id);
 	
 	/** loop para leitura de comandos **/	
 	while(1){

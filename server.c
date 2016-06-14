@@ -31,7 +31,7 @@ void* serverThread(void){
 	       
 	main_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (main_socket < 0){                                            
-		fprintf(stderr,"Erro ao abrir stream socket");                 
+		fprintf(stderr,"Erro ao abrir stream socket\n");                 
 		return(1);                                           
 	} 
 
@@ -39,7 +39,7 @@ void* serverThread(void){
 	server.sin_addr.s_addr = INADDR_ANY;                         
 	server.sin_port = htons(port); 
 	if (bind(main_socket, (struct sockaddr *)&server, sizeof server ) < 0){
-		fprintf(stderr,"Binding stream socket");                 
+		fprintf(stderr,"Binding stream socket\n");                 
 		return(1);
 	}
 	   
