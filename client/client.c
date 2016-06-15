@@ -8,20 +8,19 @@ int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr){
 }
 
 void initClientThread(struct clientInfo* info){
-	extern int errn;
 	int send_socket, port = 1024;
 
 	struct sockaddr_in server;
 	struct hostent *host, *gethostbyname();
 
 	if ((send_socket = socket(AF_INET, SOCK_STREAM, 0)) <0) {
-		fprintf(stderr,"Error opening stream socket.");
+		printf("Error opening stream socket.");
 		return;
 	}
 
 	host = gethostbyname(info->host_ip);
 	if (host == 0) {
-		fprintf(stderr,"%s: unkown host",info->host_ip);
+		printf("%s: unkown host",info->host_ip);
 		return;
 	}
 
@@ -41,21 +40,31 @@ void initClientThread(struct clientInfo* info){
 
 void main(void){
 	int parada;
-	char host_ip[] = "192.168.229.136";
+	char from[9] = "x-client";
+	char host_ip[16] = "192.168.229.136";
 	struct clientInfo info;
 	struct mensagem msgtxt;
 	struct mensagem msgadd;
 
-	_createTxtMessage(&msgtxt,"x-client","este de msg de txt");
+	printf("Criando msg de txt\n");
+	_createTxtMessage(&msgtxt, from,"teste de msg de txt\n");
+	printf("TXT: %s", msgtxt.msg);
+
 	allocInfo(&info, host_ip, &msgtxt);
+	printf("TXT: %s", info.msg->msg);
 
 	initClientThread(&info);
 
-	scanf("%d",parada);
+	printf("pressione algo para continuar ...\n");
+	scanf("%d",&parada);
+
+		printf("Criando msg de add\n");
 
 	_createAddContatoMessage(&msgadd,"x-client");
 	allocInfo(&info, host_ip, &msgadd);
 
 	initClientThread(&info);
+
+		printf("FIM!\n");
 
 }

@@ -4,6 +4,8 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <string.h>
+#include <signal.h>
+#include <errno.h>
 #include <pthread.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -12,7 +14,10 @@
 #include "user.h"
 #include "mensagem.h"
 
+int main_socket;
+
 void initServerThread(pthread_t *id);
 void* serverThread(void);
 
 #endif
+
