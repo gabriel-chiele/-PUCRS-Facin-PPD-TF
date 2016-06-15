@@ -1,0 +1,39 @@
+no computador 10.32.168.11 (jose)
+ 
+i patricia 10.32.168.12
+i carla 10.32.168.13
+
+no computador 10.32.168.14 (renata)
+
+i jose 10.32.168.11
+l jose
+
+s jose olá josé, tudo bem por ai?
+l jose
+*olá josé, tudo bem por ai?
+
+no computador 10.32.168.11 (josé)
+ 
+l renata
+-olá josé, tudo bem por ai
+
+no computador 10.32.168.14 (renata)
+
+l jose
+olá josé, tudo bem por ai
+
+no computador 10.32.168.12 (patricia)
+
+s jose #sqn
+
+no computador 10.32.168.11 (josé)
+
+l patricia
+-#sqn
+s patricia por que não?
+
+no computador 10.32.168.12 (patricia)
+
+l jose
+#sqn
+-por que não?
