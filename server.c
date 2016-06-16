@@ -56,7 +56,7 @@ void* serverThread(void){
 		sprintf(ip, "%d.%d.%d.%d\0",client.sa_data[2]&0x000000ff, client.sa_data[3]&0x000000ff, client.sa_data[4]&0x000000ff, client.sa_data[5]&0x000000ff);
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
 		pthread_mutex_lock(&lock);
-		if(msg.tipo == MSG_TXT){
+		if(msg.tipo == MSG_TXT){	//TODO: depois de salvar a msg enviar confirmação de recebimento para que o cliente que gerou a msg tbm n possa salvar no seu arquivo.
 			if( ContactwithNameExist(&usuario, msg.from) >= 0){
 				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "ab");
@@ -67,13 +67,15 @@ void* serverThread(void){
 				clearMSG(msg_received, TAM_MAX_MSG); 
 			}
 		}
-		else if(msg.tipo == ADD_CONTATO){
+		else if(msg.tipo == ADD_CONTATO){	//TODO: depois de verificar a possibilidade de add enviar msg de volta para confirmar ou negar a add, se negar o cliente que gerou a msg tbm n pode add
 			if( ContactwithNameExist(&usuario, msg.from) < 0){
-				printf("Contato novo\n");
-				contact_index = usuario.nContatos;
- 				AddContact(&usuario, msg.from, ip);
-				printf("%s\n",&usuario.file_name);
-				saveUser(&usuario, usuario.file_name);
+				if((contact_index = usuario.nContatos) < 8){
+					printf("Contato novo\n");
+	 				AddContact(&usuario, msg.from, ip);
+					printf("%s\n",&usuario.file_name);
+					saveUser(&usuario, usuario.file_name);
+				}
+				else printf("Total de contatos ja atingido\n");
 			}
 			else printf("Contato com este nome ou ip ja existe em sua lista de de contatos\n");
 		}
