@@ -50,8 +50,8 @@ int main(void){
 					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 'l': // lista as msg do contato com o nome dado
-					if((strlen(string) <= 4) && (nArgs == 0))
-						printf("Funciona\n");
+					if(nArgs == 0)
+						printf("%d", (int){ executeCommandList(&usuario, string)});
 					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 's': // envia msg para o contato com o nome dado

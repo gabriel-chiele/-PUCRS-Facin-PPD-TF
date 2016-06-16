@@ -11,13 +11,6 @@ void initServerThread(pthread_t *id){
 	err = pthread_create(&id, NULL, &serverThread, NULL);
 }
 
-void cleanMSG(char* phrase, int tam){
-	int i;
-	for(i =0; i< tam ; i++){
-		phrase[i] = '\0';
-	}
-}
-
 void* serverThread(void){     
 	extern struct user usuario;
 	char file_name[26], msg_received[TAM_MAX_MSG];
@@ -36,16 +29,18 @@ void* serverThread(void){
 	struct mensagem msg;   
 
 	signal(SIGINT, CtrlC);  
-	cleanMSG(msg_received, TAM_MAX_MSG); 
-	cleanMSG(ip, 16);                      
+	clearMSG(msg_received, TAM_MAX_MSG); 
+	clearMSG(ip, 16);                      
 	       
 	main_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (main_socket < 0){                                            
 		fprintf(stderr,"Erro ao abrir stream socket\n");                 
 		return(1);                                           
 	} 
-	if (setsockopt(main_socket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
-    	error("setsockopt(SO_REUSEADDR) failed");
+	if (setsockopt(main_socket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0){
+		errn = 4;    	
+		exit(0);
+	}
 
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;                         
@@ -69,7 +64,7 @@ void* serverThread(void){
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
 				close(msgfile);
-				cleanMSG(msg_received, TAM_MAX_MSG); 
+				clearMSG(msg_received, TAM_MAX_MSG); 
 			}
 		}
 		else if(msg.tipo == ADD_CONTATO){

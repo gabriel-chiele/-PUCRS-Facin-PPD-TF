@@ -10,7 +10,7 @@ void _createUser(struct user* new, char* name){
 int ContactExist(struct user* u, char* name, char* ip){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
-		if((!strcmp(u->contatos->_name,name)) || (!strcmp(u->contatos->_ip,ip)))
+		if((!strcmp(u->contatos[i]._name,name)) || (!strcmp(u->contatos[i]._ip,ip)))
 			return i;
 		else continue;
 	}
@@ -30,7 +30,7 @@ int ContactwithNameExist(struct user* u, char* name){
 int ContactwithIPExist(struct user* u, char* ip){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
-		if(!strcmp(u->contatos->_ip,ip))
+		if(!strcmp(u->contatos[i]._ip,ip))
 			return i;
 		else continue;
 	}
@@ -40,7 +40,7 @@ int ContactwithIPExist(struct user* u, char* ip){
 int GroupwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nGrupos);i++){
-		if(!strcmp(u->grupos->_name,name))
+		if(!strcmp(u->grupos[i]._name,name))
 			return i;
 		else continue;
 	}

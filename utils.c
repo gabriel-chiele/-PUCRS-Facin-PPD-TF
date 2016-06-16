@@ -1,5 +1,12 @@
 #include "utils.h"
 
+void clearMSG(char* phrase, int tam){
+	int i;
+	for(i =0; i< tam ; i++){
+		phrase[i] = '\0';
+	}
+}
+
 void Login(char* user_fileName){
 	extern int errn;
 	extern struct user usuario;
@@ -35,6 +42,42 @@ void Login(char* user_fileName){
 			atexit(exitWithERROR);
 		}
 	}
+}
+
+//TODO: verify error reading file
+int executeCommandList(struct user* usuario, char* string){
+	FILE* file;
+	int index,i;
+	char RX[40],name[9];
+
+	clearMSG(RX,40);
+
+	for(i=3;i<strlen(string);i++){
+		if(string[i] != '\n'){
+			name[i-3] = string[i];
+		}
+		else{
+			name[i-3] = '\0';
+			break;
+		}
+	}
+	printf("\nnome lista:%s\n",name);
+	if((index = ContactwithNameExist(usuario,name)) >=0 ){
+		printf("arquivo %s\n", usuario->contatos[index].file_name);
+		if((file = fopen(usuario->contatos[index].file_name, "rb")) == NULL)
+			return 1;
+		while (fread(RX, 40*sizeof(char), 1, file)){
+			if(feof(file)){
+				break;
+			}
+			else{
+				printf("%s",RX);			
+			}
+		}
+	}
+	//else printf("Contato inexistente\n");
+	else printf("index %d\n",index);
+	return 0;
 }
 
 void executeComandInsertion(struct user* usuario, char* string, int nArgs, char* fileName){
@@ -160,7 +203,7 @@ void exitWithERROR(void){
 			printf("\t   Error connecting stream socket\n");
 			break;
 		case 4:
-			printf("\t?\n");
+			printf("\t    Error setting sockets options\n");
 			break;
 		default:
 			printf("\tUndefined error occurred.\n\tPlease, contact developers.");
