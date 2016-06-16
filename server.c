@@ -62,13 +62,15 @@ void* serverThread(void){
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
 		pthread_mutex_lock(&lock);
 		if(msg.tipo == MSG_TXT){
-			sprintf(file_name,"Messages/%s.msg",msg.from);
-			msgfile = fopen(file_name, "ab");
-			strcpy(msg_received,msg.msg);
-			fwrite(msg_received, sizeof(msg_received), 1, msgfile);
-			fflush(msgfile);
-			close(msgfile);
-			cleanMSG(msg_received, TAM_MAX_MSG); 
+			if( ContactwithNameExist(&usuario, msg.from) >= 0){
+				sprintf(file_name,"Messages/%s.msg",msg.from);
+				msgfile = fopen(file_name, "ab");
+				strcpy(msg_received,msg.msg);
+				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
+				fflush(msgfile);
+				close(msgfile);
+				cleanMSG(msg_received, TAM_MAX_MSG); 
+			}
 		}
 		else if(msg.tipo == ADD_CONTATO){
 			if( ContactwithNameExist(&usuario, msg.from) < 0){

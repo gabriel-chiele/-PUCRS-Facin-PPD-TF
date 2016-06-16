@@ -47,14 +47,17 @@ int main(void){
 				case 'g': // add grupo com os nomes dados
 					if(nArgs >= 2)
 						printf("Funciona\n");
+					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 'l': // lista as msg do contato com o nome dado
 					if((strlen(string) <= 4) && (nArgs == 0))
 						printf("Funciona\n");
+					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 's': // envia msg para o contato com o nome dado
 					if(nArgs >= 1)
 						executeComandSend(&usuario, string, nArgs, user_fileName);
+					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 'c': // lista todos os contatos e grupos do usuario
 					if(nArgs == 0){

@@ -53,7 +53,7 @@ void AddGroup(struct user* u, char* name, struct contato* contacts, int size){
 		_createGrupo(&u->grupos[u->nGrupos], name, contacts, size);
 		u->nGrupos++;
 	}
-	else printf("You don't have capacity to add a new group !");
+	else printf("You don't have capacity to add a new group !\n");
 }
 
 //TODO: testar se contato está na lista de contatos, se não estiver cria o contato, senão não faz nada
@@ -62,7 +62,7 @@ void AddContact(struct user* u, char* name, char* ip){
 		_createContato(&u->contatos[u->nContatos], name, ip);
 		u->nContatos++;
 	}
-	else printf("You don't have capacity to add a new contact !");
+	else printf("You don't have capacity to add a new contact !\n");
 }
 
 int loadUser(struct user *usuario, char* user_fileName){
@@ -96,7 +96,7 @@ int saveUser(struct user *usuario, char* user_fileName){
 		/** save user name and filename **/
 		fwrite(usuario->userName, sizeof(usuario->userName), 1, userfile);
 		fwrite(usuario->file_name, sizeof(usuario->file_name), 1, userfile);
-		/** save number of cantacts and number of gruops **/
+		/** save number of cantacts and number of groups **/
 		fwrite(&(usuario->nContatos), sizeof(int), 1, userfile);
 		fwrite(&(usuario->nGrupos), sizeof(int), 1, userfile);
 		/** loop that saves contacts and gropus **/
