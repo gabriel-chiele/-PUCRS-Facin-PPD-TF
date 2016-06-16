@@ -3,6 +3,7 @@
 
 #include <netdb.h>
 #include <stdio.h>
+#include <stdlib.h> 
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
@@ -12,9 +13,11 @@
 #include <netinet/in.h>
 
 #include "user.h"
+#include "contato.h"
 #include "mensagem.h"
 
 int main_socket;
+extern pthread_mutex_t lock;
 
 void initServerThread(pthread_t *id);
 void* serverThread(void);

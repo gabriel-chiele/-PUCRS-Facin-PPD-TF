@@ -1,7 +1,7 @@
 #include "server.h"
 
 void CtrlC(int dummy){
-	printf("CTRLC\n");
+	printf("TRL+C\n");
 	printf("%d\n",close(main_socket));
 	exit(0);
 }
@@ -11,11 +11,18 @@ void initServerThread(pthread_t *id){
 	err = pthread_create(&id, NULL, &serverThread, NULL);
 }
 
+void cleanMSG(char* phrase, int tam){
+	int i;
+	for(i =0; i< tam ; i++){
+		phrase[i] = '\0';
+	}
+}
+
 void* serverThread(void){     
 	extern struct user usuario;
-	char file_name[26];
-	char msg_received[TAM_MAX_MSG];
-	int err, id; 
+	char file_name[26], msg_received[TAM_MAX_MSG];
+	char ip[16];
+	int err, id, contact_index; 
 	int send_socket, port = 1024;    
 	int bytes_received;                                     
 	struct sockaddr_in server; 
@@ -28,7 +35,9 @@ void* serverThread(void){
 
 	struct mensagem msg;   
 
-	signal(SIGINT, CtrlC);                         
+	signal(SIGINT, CtrlC);  
+	cleanMSG(msg_received, TAM_MAX_MSG); 
+	cleanMSG(ip, 16);                      
 	       
 	main_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (main_socket < 0){                                            
@@ -41,7 +50,6 @@ void* serverThread(void){
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;                         
 	server.sin_port = htons(port); 
-	// TODO:
 	if ( (ret = bind(main_socket, (struct sockaddr *)&server, sizeof server )) < 0){
 		fprintf(stderr,"Binding stream socket %d\n", errno);                 
 		return(1);
@@ -49,23 +57,30 @@ void* serverThread(void){
 	   
 	listen(main_socket, 5);
 	while (1) {
-		send_socket = accept(main_socket, &client, &socket_length);
-		printf("Talking to %d.%d.%d.%d \n",client.sa_data[2]&0x000000ff, client.sa_data[3]&0x000000ff, client.sa_data[4]&0x000000ff, client.sa_data[5]&0x000000ff); 
+		send_socket = accept(main_socket, &client, &socket_length); 
+		sprintf(ip, "%d.%d.%d.%d\0",client.sa_data[2]&0x000000ff, client.sa_data[3]&0x000000ff, client.sa_data[4]&0x000000ff, client.sa_data[5]&0x000000ff);
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
+		pthread_mutex_lock(&lock);
 		if(msg.tipo == MSG_TXT){
-			printf("pelo menos chegou\n");
-			//TODO: criando o arquivo mas ñ salva corretamente a msg
 			sprintf(file_name,"Messages/%s.msg",msg.from);
 			msgfile = fopen(file_name, "ab");
 			strcpy(msg_received,msg.msg);
 			fwrite(msg_received, sizeof(msg_received), 1, msgfile);
-			printf("%s sent: %s\n", msg.from, msg.msg);
+			fflush(msgfile);
 			close(msgfile);
+			cleanMSG(msg_received, TAM_MAX_MSG); 
 		}
 		else if(msg.tipo == ADD_CONTATO){
-			printf("Still not being handle!\n");
-			// TODO: create a contact at global user.  
+			if( ContactwithNameExist(&usuario, msg.from) < 0){
+				printf("Contato novo\n");
+				contact_index = usuario.nContatos;
+ 				AddContact(&usuario, msg.from, ip);
+				printf("%s\n",&usuario.file_name);
+				saveUser(&usuario, usuario.file_name);
+			}
+			else printf("Contato com este nome ou ip ja existe em sua lista de de contatos\n");
 		}
+		pthread_mutex_unlock(&lock);
 		close(send_socket);
 	}
 

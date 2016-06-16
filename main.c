@@ -10,8 +10,12 @@ struct user usuario;
 FILE* user_file;
 int errn = 0;
 pthread_t id;
+pthread_mutex_t lock;
 
 int main(void){
+	#ifndef DEBUG
+		atexit(closeWHATS);
+	#endif
 	char user_fileName[16];
 	char comando, hash, blank;
 	char string[1024];
@@ -71,8 +75,4 @@ int main(void){
 		allocInfo(&info,"ip para onde mandar", msg);
 		initClientThread(info);*/
 	}
-
-	#ifndef DEBUG
-		atexit(closeWHATS);
-	#endif
 }
