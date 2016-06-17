@@ -87,7 +87,7 @@ void* serverThread(void){
 				/** e responde que a operação foi bem sucedida **/
 				_createResponseMessage(&ret_msg, usuario.userName, 1, "");
 				send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
-				clearMSG(msg_received, TAM_MAX_MSG); 
+				memset(msg_received, '\0', TAM_MAX_MSG); 
 			}
 			/** Senão envia reposta com mensagem de erro **/	
 			else{

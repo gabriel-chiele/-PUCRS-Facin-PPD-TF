@@ -58,7 +58,7 @@ int executeCommandList(struct user* usuario, char* string){
 		while (fread(RX, TAM_MAX_MSG, 1, file) > 0){
 			/** e escreve as mensagens no terminal **/
 			printf("%s",RX);	
-			clearMSG(RX,40);
+			memset(RX,'\0',40);
 
 			if(feof(file)){
 				break;
