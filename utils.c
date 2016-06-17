@@ -108,17 +108,16 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 				}
 			}
 		}
-		if( !((ContactExist(usuario,name,ip)) > -1 )){]
-			//TODO: primeiro enviar msg de add, caso retorno positivo add nos seus contatos
-			AddContact(usuario, name, ip);
-			if(!saveUser(usuario, fileName)){
-				errn = 2;
-				atexit(exitWithERROR);
-			}
-
+		if( !((ContactExist(usuario,name,ip)) > -1 )){
 			_createAddContatoMessage(&msg, usuario->userName);
 			allocInfo(&info, ip, &msg);
-			initClientThread(&info);
+			if(initClient(&info)){
+				AddContact(usuario, name, ip);
+				if(!saveUser(usuario, fileName)){
+					errn = 2;
+					atexit(exitWithERROR);
+				}
+			}
 		}
 		else printf("Contato com este nome ou ip já existe em sua lista de contatos\n\n");
 	}
@@ -159,8 +158,15 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 		if((loc = ContactwithNameExist(usuario, name)) >= 0){
 			_createTxtMessage(&msg, usuario->userName, phrase);
 			allocInfo(&info, usuario->contatos[loc]._ip, &msg);
-			initClientThread(&info);
-			//TODO: receber confirmação de envio e depois salvar como enviado no arquivo respectivo
+			if(initClient(&info)){
+				//TODO: save msg sent in archive
+				/*sprintf(file_name,"Messages/%s.msg",msg.from);
+				msgfile = fopen(file_name, "ab");
+				strcpy(msg_received,msg.msg);
+				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
+				fflush(msgfile);
+				close(msgfile);*/
+			}
 		}
 	}
 	#ifdef DEBUG

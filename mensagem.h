@@ -15,6 +15,8 @@
 #define MSG_TXT 0
 #define ADD_CONTATO 1
 #define ADD_GRUPO 2
+#define RET_MSG_OK 3
+#define RET_MSG_FAIL 4
 
 typedef struct mensagem{
 	int tipo;
@@ -25,6 +27,7 @@ typedef struct mensagem{
 
 void _createTxtMessage(struct mensagem* new, char* from, char* phrase);
 void _createAddContatoMessage(struct mensagem* new, char* from);
+void _createResponseMessage(struct mensagem* new, char* from, int status, char* phrase);
 /*
 void _createAddGrupoMessage(struct contato* from, struct contato* to, struct mensagem* new, char* phrase);
 */

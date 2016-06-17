@@ -18,6 +18,6 @@ typedef struct clientInfo{
 }clientInfo;
 
 int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr);
-void initClientThread(struct clientInfo* info);
+int initClient(struct clientInfo* info);
 
 #endif

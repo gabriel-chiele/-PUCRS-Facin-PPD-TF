@@ -26,7 +26,7 @@ void* serverThread(void){
 
 	FILE* msgfile;
 
-	struct mensagem msg;   
+	struct mensagem msg, ret_msg;   
 
 	signal(SIGINT, CtrlC);  
 	clearMSG(msg_received, TAM_MAX_MSG); 
@@ -57,27 +57,44 @@ void* serverThread(void){
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
 		pthread_mutex_lock(&lock);
 		if(msg.tipo == MSG_TXT){	//TODO: depois de salvar a msg enviar confirmação de recebimento para que o cliente que gerou a msg tbm n possa salvar no seu arquivo.
-			if( ContactwithNameExist(&usuario, msg.from) >= 0){
+			if(ContactExist(&usuario, msg.from, ip) >= 0){
 				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "ab");
 				strcpy(msg_received,msg.msg);
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
 				close(msgfile);
+				_createResponseMessage(&ret_msg, usuario.userName, 1, "");
+				send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
 				clearMSG(msg_received, TAM_MAX_MSG); 
 			}
+			else{
+				printf("Mensagem de contato desconhecido\n");
+				_createResponseMessage(&ret_msg, usuario.userName, 0, "Mensagem de contato desconhecido\n");
+				send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
+			}
 		}
-		else if(msg.tipo == ADD_CONTATO){	//TODO: depois de verificar a possibilidade de add enviar msg de volta para confirmar ou negar a add, se negar o cliente que gerou a msg tbm n pode add
-			if( ContactwithNameExist(&usuario, msg.from) < 0){
+		else if(msg.tipo == ADD_CONTATO){
+			if(ContactExist(&usuario, msg.from, ip) < 0){
 				if((contact_index = usuario.nContatos) < 8){
 					printf("Contato novo\n");
 	 				AddContact(&usuario, msg.from, ip);
 					printf("%s\n",&usuario.file_name);
 					saveUser(&usuario, usuario.file_name);
+					_createResponseMessage(&ret_msg, usuario.userName, 1, "");
+					send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
 				}
-				else printf("Total de contatos ja atingido\n");
+				else{
+					printf("Total de contatos ja atingido\n");
+					_createResponseMessage(&ret_msg, usuario.userName, 0, "Total de contatos ja atingido\n");
+					send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
+				}
 			}
-			else printf("Contato com este nome ou ip ja existe em sua lista de de contatos\n");
+			else{ 
+				printf("Contato com este nome ou ip ja existe em sua lista de de contatos\n");
+				_createResponseMessage(&ret_msg, usuario.userName, 0, "Contato com este nome ou ip ja existe em sua lista de de contatos\n");
+				send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
+			}
 		}
 		pthread_mutex_unlock(&lock);
 		close(send_socket);
