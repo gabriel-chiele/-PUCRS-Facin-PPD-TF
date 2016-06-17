@@ -8,10 +8,12 @@ int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr){
 }
 
 void initClientThread(struct clientInfo* info){
-	int send_socket, port = 1024;
+	int send_socket, bytes_received, port = 1024;
 
 	struct sockaddr_in server;
 	struct hostent *host, *gethostbyname();
+
+	struct mensagem ret_msg;
 
 	if ((send_socket = socket(AF_INET, SOCK_STREAM, 0)) <0) {
 		printf("Error opening stream socket.");
@@ -34,8 +36,22 @@ void initClientThread(struct clientInfo* info){
 
 	send(send_socket, info->msg, sizeof(struct mensagem), 0);
 
-	close(send_socket);
-	return;
+	while(1){
+		bytes_received = recv(send_socket, &ret_msg, sizeof(struct mensagem), 0);
+		close(send_socket);
+		if(ret_msg.tipo == RET_MSG_OK){
+			printf("\nretornou\n");
+			return 1;
+		}
+		else if(ret_msg.tipo == RET_MSG_FAIL){
+			printf("\n%s\n",ret_msg.msg);
+			return 0;
+		}
+		else{
+			printf("Received wrong type of message!\n");
+			continue;
+		}
+	}
 }
 
 void main(void){

@@ -17,7 +17,7 @@
 #include "contato.h"
 #include "mensagem.h"
 
-int main_socket;
+int main_socket, send_socket;
 extern pthread_mutex_t lock;
 extern int errn;
 

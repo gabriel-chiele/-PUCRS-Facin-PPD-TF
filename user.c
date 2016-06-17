@@ -1,5 +1,6 @@
 #include "user.h"
 
+/** Construtor de usuario **/
 void _createUser(struct user* new, char* name){
 	strcpy(new->userName, name);
 	sprintf(new->file_name, "Users/%s.u", name);
@@ -7,6 +8,7 @@ void _createUser(struct user* new, char* name){
 	new->nGrupos = 0;
 }
 
+/** Verifica a existência de contato com o nome ou ip dados **/
 int ContactExist(struct user* u, char* name, char* ip){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
@@ -17,6 +19,7 @@ int ContactExist(struct user* u, char* name, char* ip){
 	return -1;
 }
 
+/** Verifica a existência de contato com o nome dado **/
 int ContactwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
@@ -27,6 +30,7 @@ int ContactwithNameExist(struct user* u, char* name){
 	return -1;
 }
 
+/** Verifica a existência de contato com o ip dado **/
 int ContactwithIPExist(struct user* u, char* ip){
 	int i;
 	for(i=0;i<(u->nContatos);i++){
@@ -37,6 +41,7 @@ int ContactwithIPExist(struct user* u, char* ip){
 	return -1;
 }
 
+/** Verifica a existência de grupo com o ip dado **/
 int GroupwithNameExist(struct user* u, char* name){
 	int i;
 	for(i=0;i<(u->nGrupos);i++){
@@ -56,7 +61,7 @@ void AddGroup(struct user* u, char* name, struct contato* contacts, int size){
 	else printf("You don't have capacity to add a new group !\n");
 }
 
-//TODO: testar se contato está na lista de contatos, se não estiver cria o contato, senão não faz nada
+/** Adiciona contato à lista de contatos do usuario **/
 void AddContact(struct user* u, char* name, char* ip){
 	if(u->nContatos < 8){
 		_createContato(&u->contatos[u->nContatos], name, ip);
@@ -65,6 +70,7 @@ void AddContact(struct user* u, char* name, char* ip){
 	else printf("You don't have capacity to add a new contact !\n");
 }
 
+/** Carrega usuario de um arquivo **/
 int loadUser(struct user *usuario, char* user_fileName){
 	char aux[25];
 	int i =0;
@@ -87,6 +93,7 @@ int loadUser(struct user *usuario, char* user_fileName){
 	else return 0;
 }
 
+/** Salva usuario em um arquivo **/
 int saveUser(struct user *usuario, char* user_fileName){
 	// NOTE: Opening file with 'wb' will delete existent files
 	int i = 0;
@@ -112,6 +119,7 @@ int saveUser(struct user *usuario, char* user_fileName){
 	else return 0;
 }
 
+/** Imprime o nome dos contatos e dos grupos de um usuario **/
 void printUserContacts(struct user *usuario){
 	int i =0, j=0;
 	for(i=0; i < usuario->nContatos + usuario->nGrupos; i++){

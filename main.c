@@ -3,9 +3,6 @@
 #include "client.h"
 #include "server.h"
 
-//#define DEBUG
-//#define ADD_CONTACT
-
 struct user usuario;
 FILE* user_file;
 int errn = 0;
@@ -13,18 +10,17 @@ pthread_t id;
 pthread_mutex_t lock;
 
 int main(void){
-	#ifndef DEBUG
-		atexit(closeWHATS);
-	#endif
+	atexit(closeWHATS);
 	char user_fileName[16];
 	char comando, hash, blank;
 	char string[1024];
 	int i = 0, nArgs = 0, blank_location = 0;
 
+	/** Login do usuario **/
 	Login(user_fileName);
 
+	/** Inicia thread do servidor **/
 	printf("\n");
-	//TODO: uncomments live below, serverthread commented for test matters
 	initServerThread(&id);
 	
 	/** loop para leitura de comandos **/	
@@ -51,7 +47,7 @@ int main(void){
 					break;
 				case 'l': // lista as msg do contato com o nome dado
 					if(nArgs == 0)
-						printf("%d", (int){ executeCommandList(&usuario, string)});
+						executeCommandList(&usuario, string);
 					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 's': // envia msg para o contato com o nome dado
@@ -65,17 +61,12 @@ int main(void){
 						printUserContacts(&usuario);
 					}
 					break;
-				default: // 
+				default:
 					printf("N funciona\n");
 					break;
 			}
 		}
 		else printf("\t\t    Comando Invalido\n");
-
 		nArgs = 0;
-
-		/*_createTxtMessage(&msg, usuario.userName,"msg em si")
-		allocInfo(&info,"ip para onde mandar", msg);
-		initClientThread(info);*/
 	}
 }
