@@ -108,7 +108,8 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 				}
 			}
 		}
-		if( !((ContactExist(usuario,name,ip)) > -1 )){
+		if( !((ContactExist(usuario,name,ip)) > -1 )){]
+			//TODO: primeiro enviar msg de add, caso retorno positivo add nos seus contatos
 			AddContact(usuario, name, ip);
 			if(!saveUser(usuario, fileName)){
 				errn = 2;
@@ -159,6 +160,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 			_createTxtMessage(&msg, usuario->userName, phrase);
 			allocInfo(&info, usuario->contatos[loc]._ip, &msg);
 			initClientThread(&info);
+			//TODO: receber confirmação de envio e depois salvar como enviado no arquivo respectivo
 		}
 	}
 	#ifdef DEBUG

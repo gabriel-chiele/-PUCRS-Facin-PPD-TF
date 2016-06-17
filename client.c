@@ -36,6 +36,8 @@ void initClientThread(struct clientInfo* info){
 
 	send(send_socket, info->msg, sizeof(struct mensagem), 0);
 
+	//TODO: recv response and return it
+
 	close(send_socket);
 	return;
 }
