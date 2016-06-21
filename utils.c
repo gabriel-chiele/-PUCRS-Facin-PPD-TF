@@ -116,8 +116,6 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 				}
 			}
 		}
-		/** Senão mensagen de erro é exibida **/
-		else printf("Contato com este nome ou ip já existe em sua lista de contatos\n\n");
 	}
 	else printf("\t\t    Comando Invalido\n");
 	#ifdef DEBUG

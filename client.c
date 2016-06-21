@@ -50,6 +50,7 @@ int initClient(struct clientInfo* info){
 			return 1;
 		}
 		else if(ret_msg.tipo == RET_MSG_FAIL){
+			printf("\n%s\n",ret_msg.msg);
 			return 0;
 		}
 		else{

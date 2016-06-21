@@ -17,7 +17,7 @@ void initServerThread(pthread_t *id){
 /** Execução do servidor **/
 void* serverThread(void){     
 	extern struct user usuario;
-	char file_name[26], msg_received[TAM_MAX_MSG];
+	char file_name[26], msg_received[40];
 	char ip[16];
 	int err, id, contact_index; 
 	int port = 1024;    
@@ -124,7 +124,7 @@ void* serverThread(void){
 			/** Senão envia reposta com mensagem de erro **/
 			else{ 
 				printf("Contato com este nome ou ip ja existe em sua lista de de contatos\n");
-				_createResponseMessage(&ret_msg, usuario.userName, 0, "Contato com este nome ou ip ja existe em sua lista de de contatos\n");
+				_createResponseMessage(&ret_msg, usuario.userName, 0, "Contato com este nome ou ip ja existe\n");
 				send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
 			}
 		}
