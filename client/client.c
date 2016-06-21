@@ -62,6 +62,16 @@ void main(void){
 	struct mensagem msgtxt;
 	struct mensagem msgadd;
 
+	printf("Criando msg de add\n");
+
+	_createAddContatoMessage(&msgadd,"x-client");
+	allocInfo(&info, host_ip, &msgadd);
+
+	initClientThread(&info);
+
+	printf("pressione algo para continuar ...\n");
+	scanf("%d",&parada);
+
 	printf("Criando msg de txt\n");
 	_createTxtMessage(&msgtxt, from,"teste de msg de txt\n");
 	printf("TXT: %s", msgtxt.msg);
@@ -70,17 +80,7 @@ void main(void){
 	printf("TXT: %s", info.msg->msg);
 
 	initClientThread(&info);
-
-	printf("pressione algo para continuar ...\n");
-	scanf("%d",&parada);
-
-		printf("Criando msg de add\n");
-
-	_createAddContatoMessage(&msgadd,"x-client");
-	allocInfo(&info, host_ip, &msgadd);
-
-	initClientThread(&info);
-
-		printf("FIM!\n");
+	
+	printf("FIM!\n");
 
 }

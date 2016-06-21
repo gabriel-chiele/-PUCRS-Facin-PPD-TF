@@ -108,7 +108,7 @@ void* serverThread(void){
 					/** adiciona o contato **/
 					printf("Contato novo\n");
 	 				AddContact(&usuario, msg.from, ip);
-					printf("%s\n",&usuario.file_name);
+					printf("%s\n",msg.from);
 					saveUser(&usuario, usuario.file_name);
 					/** e responde que a operação foi bem sucedida **/
 					_createResponseMessage(&ret_msg, usuario.userName, 1, "");

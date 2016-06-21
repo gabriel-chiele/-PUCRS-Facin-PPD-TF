@@ -21,7 +21,7 @@ int main(void){
 
 	/** Inicia thread do servidor **/
 	printf("\n");
-	//initServerThread(&id);
+	initServerThread(&id);
 	
 	/** loop para leitura de comandos **/	
 	while(1){
