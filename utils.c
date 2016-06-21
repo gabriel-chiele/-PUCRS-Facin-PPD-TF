@@ -131,9 +131,12 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 	extern int errn;
 	struct mensagem msg;
 	struct clientInfo info;
-	char name[9], phrase[TAM_MAX_MSG];
+	char name[9], phrase[TAM_MAX_MSG], file_name[26];
+	char msg_received[40];
 	int blank_location = 0, i =0, loc = -1;
-	
+
+	FILE* msgfile;
+		
 	memset(name,'\0',sizeof(name));
 	memset(phrase,'\0',sizeof(phrase));
 
@@ -164,13 +167,12 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 			/** Se contato recebeu a mensagem **/
 			if(initClient(&info)){
 				/** Salva a mensagem enviada no arquivo de mensagens do contato **/
-				//TODO: save msg sent in archive
-				/*sprintf(file_name,"Messages/%s.msg",msg.from);
+				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "ab");
-				strcpy(msg_received,msg.msg);
+				sprintf(msg_received, "--> %s",msg.msg);
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
-				close(msgfile);*/
+				close(msgfile);
 			}
 		}
 	}

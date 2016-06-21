@@ -69,18 +69,21 @@ void* serverThread(void){
 		if(send_socket == -1) {
 			break;	
 		}
-		sprintf(ip, "%d.%d.%d.%d\0",client.sa_data[2]&0x000000ff, client.sa_data[3]&0x000000ff, client.sa_data[4]&0x000000ff, client.sa_data[5]&0x000000ff);
+		sprintf(ip, "%d.%d.%d.%d\0",client.sa_data[2]&0x000000ff,\
+								    client.sa_data[3]&0x000000ff,\
+									client.sa_data[4]&0x000000ff,\
+									client.sa_data[5]&0x000000ff);
 		/** Recebendo pacote **/
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
 		pthread_mutex_lock(&lock);
 		/** Tratando mensagens de texto recebidas **/
-		if(msg.tipo == MSG_TXT){	//TODO: depois de salvar a msg enviar confirmação de recebimento para que o cliente que gerou a msg tbm n possa salvar no seu arquivo.
+		if(msg.tipo == MSG_TXT){
 			/** Se contato com nome e ip não existe na lista de contatos do usuario **/			
 			if(ContactExist(&usuario, msg.from, ip) >= 0){
 				/** Salva a mensagem **/
 				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "ab");
-				strcpy(msg_received,msg.msg);
+				sprintf(msg_received, "<-- %s",msg.msg);
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
 				close(msgfile);
