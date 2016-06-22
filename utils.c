@@ -77,9 +77,9 @@ int executeCommandList(struct user* usuario, char* string){
 				}
 				else{
 					/** adiciona o 2° '*' ao final da mensagem **/
-					RX[len] = '*';
-					RX[len+1] = '\n';
-					RX[len+2] = '\0';
+					RX[len-1] = '*';
+					RX[len] = '\n';
+					RX[len+1] = '\0';
 					fseek(file, (-40*sizeof(char)), SEEK_CUR);
 					fwrite(RX, sizeof(RX), 1, file);
 				}

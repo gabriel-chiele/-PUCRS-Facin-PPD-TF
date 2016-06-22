@@ -86,9 +86,9 @@ void* serverThread(void){
 				sprintf(msg_received, "<-- %s",msg.msg);
 				/** Insere o identificador de mensagem não lida **/
 				strlength = strlen(msg_received);
-				msg_received[strlength-1] = ' ';
-				msg_received[strlength] = '*';
-				msg_received[strlength+1] = '\n';
+				msg_received[strlength] = ' ';
+				msg_received[strlength+1] = '*';
+				msg_received[strlength+2] = '\n';
 				/** Escreve no arquivo de mensagem correspondente **/
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
