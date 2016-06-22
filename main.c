@@ -46,8 +46,11 @@ int main(void){
 					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 'l': // lista as msg do contato com o nome dado
-					if(nArgs == 0)
-						executeCommandList(&usuario, string);
+					if(nArgs == 0){
+						if(executeCommandList(&usuario, string)){
+							printf("\t\t      Sem mensagens\n");
+						}
+					}
 					else printf("\t\t    Comando Invalido\n");
 					break;
 				case 's': // envia msg para o contato com o nome dado
@@ -69,5 +72,6 @@ int main(void){
 		}
 		else printf("\t\t    Comando Invalido\n");
 		nArgs = 0;
+		//TODO: abrir thread para tentar reenviar pendentes
 	}
 }
