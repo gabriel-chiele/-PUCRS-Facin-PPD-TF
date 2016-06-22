@@ -207,7 +207,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 				/** Salva a mensagem enviada no arquivo de mensagens do contato **/
 				sprintf(file_name,"Messages/%s.msg",name);
 				msgfile = fopen(file_name, "ab");
-				sprintf(msg_received, "--> %s",msg.msg);
+				sprintf(msg_received, "--> %s *\n",msg.msg);
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
 				close(msgfile);
