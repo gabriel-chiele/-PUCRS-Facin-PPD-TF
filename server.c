@@ -135,7 +135,7 @@ void* serverThread(void){
 			}
 		}
 		else if(msg.tipo = READ_MSGS){
-			if(ContactExist(&usuario, msg.from, ip) < 0){
+			if(ContactExist(&usuario, msg.from, ip) >= 0){
 				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "rb+");
 				while (fread(msg_received, 40, 1, msgfile) > 0){
@@ -163,6 +163,7 @@ void* serverThread(void){
 				memset(msg_received,'\0',40);
 				close(msgfile);
 			}
+
 		}
 		pthread_mutex_unlock(&lock);
 		/** Fecha socket de comunicação **/

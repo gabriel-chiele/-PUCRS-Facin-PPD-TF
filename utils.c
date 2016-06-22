@@ -167,6 +167,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 	FILE* msgfile;
 		
 	memset(name,'\0',sizeof(name));
+	memset(msg_received,'\0',sizeof(msg_received));
 	memset(phrase,'\0',sizeof(phrase));
 
 	/** Identifica nome do contato e mensagem a ser enviada **/
@@ -215,6 +216,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
 				close(msgfile);
+				memset(msg_received,'\0',sizeof(msg_received));
 			}
 		}
 	}
