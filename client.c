@@ -44,6 +44,8 @@ int initClient(struct clientInfo* info){
 
 	/** Envio da Mensagem **/
 	send(send_socket, info->msg, sizeof(struct mensagem), 0);
+	if(info->msg->tipo = READ_MSGS)
+		return 1;
 
 	/** Espera por confirmação de recebimento **/
 	while(1){

@@ -15,18 +15,18 @@ void initServerThread(pthread_t *id){
 }
 
 /** Execução do servidor **/
-void* serverThread(void){     
+void* serverThread(void){    
 	extern struct user usuario;
 	char file_name[26], msg_received[40];
 	char ip[16];
-	int err, id, contact_index; 
+	int err, id, contact_index, len; 
 	int port = 1024;    
 	int bytes_received;                                     
 	struct sockaddr_in server; 
 	struct sockaddr client;
 	socklen_t socket_length = sizeof(struct sockaddr);   
 
-	int ret, enable = 1;
+	int ret, enable = 1, strlength = 0;
 
 	FILE* msgfile;
 
@@ -36,9 +36,9 @@ void* serverThread(void){
 	signal(SIGINT, CtrlC);  
 
 	/** Limpeza das strings **/
-	memset(msg_received, '\0', TAM_MAX_MSG);
-	memset(ip, '\0', 16);                     
-	       
+	memset(ip, '\0', 16);
+	memset(msg_received, '\0', 40);
+
 	/** Criação do Socket principal do servidor **/
 	main_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (main_socket < 0){                                            
@@ -60,10 +60,10 @@ void* serverThread(void){
 		fprintf(stderr,"Binding stream socket %d\n", errno);                 
 		return(1);
 	}
-	   
+ 
 	/** Esperando requisições de conexão **/
 	listen(main_socket, 5);
-	while (1) { //TODO: abrir thread de handlemsg para ñ ficar ocupando o servidor com isto
+	while (1) {
 		/** Aceitando uma conexão e criando socket de comunicação **/
 		send_socket = accept(main_socket, &client, &socket_length);
 		if(send_socket == -1) {
@@ -75,7 +75,9 @@ void* serverThread(void){
 									client.sa_data[5]&0x000000ff);
 		/** Recebendo pacote **/
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
-		pthread_mutex_lock(&lock);
+		printf("rcv %d\n", bytes_received);
+		//pthread_mutex_lock(&lock);
+		printf("recebi");
 		/** Tratando mensagens de texto recebidas **/
 		if(msg.tipo == MSG_TXT){
 			/** Se contato com nome e ip não existe na lista de contatos do usuario **/			
@@ -84,6 +86,12 @@ void* serverThread(void){
 				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "ab");
 				sprintf(msg_received, "<-- %s",msg.msg);
+				/** Insere o identificador de mensagem não lida **/
+				strlength = strlen(msg_received);
+				msg_received[strlength-1] = ' ';
+				msg_received[strlength] = '*';
+				msg_received[strlength+1] = '\n';
+				/** Escreve no arquivo de mensagem correspondente **/
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
 				fflush(msgfile);
 				close(msgfile);
@@ -128,7 +136,37 @@ void* serverThread(void){
 				send(send_socket, &ret_msg, sizeof(struct mensagem), 0);
 			}
 		}
-		pthread_mutex_unlock(&lock);
+		else if(msg.tipo = READ_MSGS){
+			if(ContactExist(&usuario, msg.from, ip) < 0){
+				sprintf(file_name,"Messages/%s.msg",msg.from);
+				msgfile = fopen(file_name, "rb+");
+				while (fread(msg_received, 40, 1, msgfile) > 0){
+					/** verifica se é uma mensagem recebida **/
+					if(msg_received[0] == '-'){
+						len = strlen(msg_received);
+						/** verifica se é uma mensagem que já foi lida **/
+						if(msg_received[len-2] == '*' && msg_received[len-3] == '*'){
+							continue;
+						}
+						else{
+							/** adiciona o 2° '*' ao final da mensagem **/
+							msg_received[len-1] = '*';
+							msg_received[len] = '\n';
+							msg_received[len+1] = '\0';
+							fseek(msgfile, (-40*sizeof(char)), SEEK_CUR);
+							fwrite(msg_received, sizeof(msg_received), 1, msgfile);
+						}
+					}
+					memset(msg_received,'\0',40);
+					if(feof(msgfile)){
+						break;
+					}
+				}
+				memset(msg_received,'\0',40);
+				close(msgfile);
+			}
+		}
+		//pthread_mutex_unlock(&lock);
 		/** Fecha socket de comunicação **/
 		close(send_socket);
 	}

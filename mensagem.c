@@ -26,6 +26,11 @@ void _createResponseMessage(struct mensagem* new, char* from, int status, char* 
 	new->estado = CRIADA;
 }
 
+void _createListMessage(struct mensagem* new, char* from){
+	new->tipo = READ_MSGS;
+	sprintf(new->from, "%s", from);
+	new->estado = CRIADA;
+}
 /* quando um grupo é criado tem q se mandar a msg de criação de grupo para todos, junto com os nome e ip 
 deo participantes do grupo.
 

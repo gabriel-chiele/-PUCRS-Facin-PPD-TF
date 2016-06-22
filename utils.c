@@ -35,8 +35,10 @@ void Login(char* user_fileName){
 /** Executa comando de listar mensagens de um contato **/
 int executeCommandList(struct user* usuario, char* string){
 	FILE* file;
-	int index,i;
+	int index, i, len;
 	char RX[40],name[9];
+	struct mensagem msg;
+	struct clientInfo info;
 
 	memset(RX,'\0',40);
 
@@ -53,18 +55,46 @@ int executeCommandList(struct user* usuario, char* string){
 	/** Se contato existe **/
 	if((index = ContactwithNameExist(usuario,name)) >=0 ){
 		/** Abre o arquivo de mensagens **/
-		if((file = fopen(usuario->contatos[index].file_name, "rb")) == NULL)
+		if((file = fopen(usuario->contatos[index].file_name, "rb+")) == NULL)
 			return 1;
-		while (fread(RX, TAM_MAX_MSG, 1, file) > 0){
+		while (fread(RX, 40, 1, file) > 0){
 			/** e escreve as mensagens no terminal **/
 			printf("%s",RX);	
 			memset(RX,'\0',40);
-
 			if(feof(file)){
 				break;
 			}
 		}
-		close(file);			
+		/** volta para o inicio do arquivo **/
+		fseek(file, 0, SEEK_SET);
+		while (fread(RX, 40, 1, file) > 0){
+			/** verifica se é uma mensagem recebida **/
+			if(RX[0] == '<'){
+				len = strlen(RX);
+				/** verifica se é uma mensagem que já foi lida **/
+				if(RX[len-2] == '*' && RX[len-3] == '*'){
+					continue;
+				}
+				else{
+					/** adiciona o 2° '*' ao final da mensagem **/
+					RX[len-1] = '*';
+					RX[len] = '\n';
+					RX[len+1] = '\0';
+					fseek(file, (-40*sizeof(char)), SEEK_CUR);
+					fwrite(RX, sizeof(RX), 1, file);
+				}
+			}
+			memset(RX,'\0',40);
+			if(feof(file)){
+				break;
+			}
+		}
+		close(file);
+		printf("\n");
+		/** envia para o contato sinal para atualizar os '*' do arquivo dele **/
+		_createListMessage(&msg, usuario->userName);
+		allocInfo(&info, usuario->contatos[index]._ip, &msg);
+		initClient(&info);
 	}
 	/** Senão informa que contato não existe **/
 	else printf("Contato inexistente\n");
@@ -132,7 +162,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 	struct clientInfo info;
 	char name[9], phrase[TAM_MAX_MSG], file_name[26];
 	char msg_received[40];
-	int blank_location = 0, i =0, loc = -1;
+	int blank_location = 0, i =0, loc = -1, maxout=0;
 
 	FILE* msgfile;
 		
@@ -147,7 +177,15 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 			}
 			else{
 				if(blank_location > 0){
-					phrase[i-blank_location-1] = string[i];
+					if(maxout < TAM_MAX_MSG-1){
+						phrase[i-blank_location-1] = string[i];
+						maxout ++;
+					}
+					else{
+						phrase[31] = '\n';
+						phrase[32] = '\0';
+						break;
+					}
 					if(string[i] == '\n'){
 						phrase[i-blank_location-1] = '\0';
 						break;
