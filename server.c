@@ -75,9 +75,7 @@ void* serverThread(void){
 									client.sa_data[5]&0x000000ff);
 		/** Recebendo pacote **/
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
-		printf("rcv %d\n", bytes_received);
 		//pthread_mutex_lock(&lock);
-		printf("recebi");
 		/** Tratando mensagens de texto recebidas **/
 		if(msg.tipo == MSG_TXT){
 			/** Se contato com nome e ip não existe na lista de contatos do usuario **/			

@@ -205,7 +205,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 			if(initClient(&info)){
 				//TODO: veridficar se retorno é 2 salvar em arquivo de pendentes, se for 1 faz oq esta abaixo
 				/** Salva a mensagem enviada no arquivo de mensagens do contato **/
-				sprintf(file_name,"Messages/%s.msg",msg.from);
+				sprintf(file_name,"Messages/%s.msg",name);
 				msgfile = fopen(file_name, "ab");
 				sprintf(msg_received, "--> %s",msg.msg);
 				fwrite(msg_received, sizeof(msg_received), 1, msgfile);
