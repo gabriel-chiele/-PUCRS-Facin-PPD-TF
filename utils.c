@@ -108,6 +108,7 @@ void executeComandInsertion(struct user* usuario, char* string, int nArgs, char*
 			allocInfo(&info, ip, &msg);
 			/** Se o contato permitir a inserção **/
 			if(initClient(&info)){
+				//TODO: verificar se retorno é 2 salvar em arquivo de pendentes, se for 1 faz oq esta abaixo
 				/** contato é adicionado **/
 				AddContact(usuario, name, ip);
 				if(!saveUser(usuario, fileName)){
@@ -164,6 +165,7 @@ void executeComandSend(struct user* usuario, char* string, int nArgs, char* file
 			allocInfo(&info, usuario->contatos[loc]._ip, &msg);
 			/** Se contato recebeu a mensagem **/
 			if(initClient(&info)){
+				//TODO: veridficar se retorno é 2 salvar em arquivo de pendentes, se for 1 faz oq esta abaixo
 				/** Salva a mensagem enviada no arquivo de mensagens do contato **/
 				sprintf(file_name,"Messages/%s.msg",msg.from);
 				msgfile = fopen(file_name, "ab");

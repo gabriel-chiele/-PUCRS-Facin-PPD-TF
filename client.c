@@ -10,6 +10,7 @@ int allocInfo(struct clientInfo *new, char* ip, struct mensagem* ptr){
 int initClient(struct clientInfo* info){
 	extern int errn;
 	int send_socket, bytes_received, port = 1024;
+	int ret;
 
 	struct sockaddr_in server;
 	struct hostent *host, *gethostbyname();
@@ -34,7 +35,9 @@ int initClient(struct clientInfo* info){
 	server.sin_port = htons(port);
 
 	/** Conexão com o Host **/
-	if (connect(send_socket, (struct sockaddr *)&server, sizeof server ) < 0) {;
+	if ((ret = connect(send_socket, (struct sockaddr *)&server, sizeof server )) < 0) {
+		//TODO: não dar msg erro, ao invés disso, se conexão ñ for realizada,\
+				salvar msg em pendentes e retornar do método com retorno 2
 		errn = 3;
 		exitWithERROR();
 	}

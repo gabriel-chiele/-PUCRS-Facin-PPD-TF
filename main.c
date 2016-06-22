@@ -59,6 +59,7 @@ int main(void){
 					if(nArgs == 0){
 						string[2] = '\0';
 						printUserContacts(&usuario);
+						//TODO: printUserGroups(&usuario);
 					}
 					break;
 				default:

@@ -63,7 +63,7 @@ void* serverThread(void){
 	   
 	/** Esperando requisições de conexão **/
 	listen(main_socket, 5);
-	while (1) {
+	while (1) { //TODO: abrir thread de handlemsg para ñ ficar ocupando o servidor com isto
 		/** Aceitando uma conexão e criando socket de comunicação **/
 		send_socket = accept(main_socket, &client, &socket_length);
 		if(send_socket == -1) {
