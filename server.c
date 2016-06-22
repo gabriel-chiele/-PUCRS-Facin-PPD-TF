@@ -75,7 +75,7 @@ void* serverThread(void){
 									client.sa_data[5]&0x000000ff);
 		/** Recebendo pacote **/
 		bytes_received = recv(send_socket, &msg, sizeof(struct mensagem), 0);
-		//pthread_mutex_lock(&lock);
+		pthread_mutex_lock(&lock);
 		/** Tratando mensagens de texto recebidas **/
 		if(msg.tipo == MSG_TXT){
 			/** Se contato com nome e ip não existe na lista de contatos do usuario **/			
@@ -164,7 +164,7 @@ void* serverThread(void){
 				close(msgfile);
 			}
 		}
-		//pthread_mutex_unlock(&lock);
+		pthread_mutex_unlock(&lock);
 		/** Fecha socket de comunicação **/
 		close(send_socket);
 	}
